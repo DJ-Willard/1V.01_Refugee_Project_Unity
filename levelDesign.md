@@ -1,5 +1,5 @@
-TUTORIAL:
-
+# Level Design
+## Tutorial
 Parents are going out on a date night.
 "Go to bed kiddo, no more radio tonight."
 Kid sneaks by parents getting ready to go out to get the radio to hide under their pillow.
@@ -11,24 +11,25 @@ Kid decides to go look for them and to listen to the evacuation notice.
 Kid looks for parents at restaurant Enemy mech shows up you are force to hide inside.
 Mech as it goes by announces "citezen do not resist, do not leave your homes, dont break curfew" shake came solider looking for things
 
-
-LEVEL ONE:
+##Level One
 leave restaurant get map and get out of city.
 Note says there is a map in the cellar across the street good luck.
 Radio must be scanned by player to keep up with updates. 
 Radio gives objectives.
 
 
-LEVEL TWO:
+## Level Two
 find a coat before time runs out get to rendezvous in snow cover fields and forest.
-Peter:
+
+*PW comment:*
 - possible to get through level without coat? warm shelter/fire areas? how does mechanic work?
 - or skip mechanic and keep it on rails
 
 
-LEVEL THREE: 
+## Level Three
 Town hopping
 At rendezvous player must escort an older man  to point near boat 
-Get to boat find family on boat    
-Peter:
+Get to boat find family on boat
+
+*PW comment:*
 - could you clarify town hopping idea?
