@@ -29,6 +29,7 @@ namespace StarterAssets
         public float SpeedChangeRate = 10.0f;
 
         public AudioClip LandingAudioClip;
+        [Range(0, 1)] public float LandingAudioVolume = 0.5f;   // added
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
@@ -385,7 +386,8 @@ namespace StarterAssets
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                // changed to new LandingAudioVolume
+                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), LandingAudioVolume);
             }
         }
     }
