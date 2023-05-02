@@ -390,5 +390,23 @@ namespace StarterAssets
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), LandingAudioVolume);
             }
         }
+
+        // added function and logic for radio pickup
+        // is there any argument that the radio object should perform this logic instead?
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.name == "walkie_pickup")
+            {
+                Debug.Log("Player collision with walkie pickup.");
+                
+                other.gameObject.SetActive(false);
+                // could also destroy object
+
+                // TODO
+                // need to set some sort of flag to indicate radio has been picked up
+                // radio needs to emit noise so it can be found
+                // does inactivation remove any audio radio is making, or must it be destroyed?
+            }
+        }
     }
 }
