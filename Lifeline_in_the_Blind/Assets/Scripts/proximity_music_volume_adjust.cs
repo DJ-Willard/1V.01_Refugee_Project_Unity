@@ -11,26 +11,56 @@ public class proximity_music_volume_adjust : MonoBehaviour
     [Tooltip("When target object is within threshold, audio is steadily reduced in volume.")]
     public float threshold;
     public AudioSource audio_source;
+    public GlobalBoolVariable pickedUpRadio;
     private float distance;
     private float originalVolume;
     private float newVolume;
+    private bool isCoroutineStarted;
+    
 
-    // Start is called before the first frame update
     void Start()
     {
         originalVolume = audio_source.volume;
+        isCoroutineStarted = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // closer you get to target, quieter music gets so you can hear object audio
-        distance = Vector3.Distance(transform.position, target.transform.position);
-        if (distance < threshold)
+        // check for radio pickup
+        // a more efficient way to do this might be an event and delegate manager
+        if (!pickedUpRadio.value)
         {
-            newVolume = (distance / threshold) * originalVolume;
-            Debug.Log("Adjusting volume from" + audio_source.volume + " to " + newVolume);
-            audio_source.volume = newVolume;
+            // closer you get to target, quieter music gets so you can hear object audio
+            distance = Vector3.Distance(transform.position, target.transform.position);
+            if (distance < threshold)
+            {
+                newVolume = (distance / threshold) * originalVolume;
+                Debug.Log("IF: Adjusting volume from" + audio_source.volume + " to " + newVolume);
+                audio_source.volume = newVolume;
+            }
         }
+        else 
+        // return to original volume
+        {
+            if (!isCoroutineStarted)
+            {
+                StartCoroutine(ChangeVolumeCoroutine());
+                isCoroutineStarted = true;
+            }
+            //Debug.Log("Volume is " + audio_source.volume);
+        }
+        //Debug.Log("pickedUpRadio = " + pickedUpRadio.value);
+    }
+
+    private IEnumerator ChangeVolumeCoroutine()
+    {
+        Debug.Log("Ran coroutine");
+        while (audio_source.volume < originalVolume)
+        {
+            audio_source.volume += 0.00005f;
+            yield return null;
+        }
+        Debug.Log("Finished coroutine");
+        this.gameObject.SetActive(false);
     }
 }
