@@ -76,6 +76,14 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        // PW: added (global variable implementation see Scripts > ScriptableObjectTemplates
+            // Access via pickedUpRadio.value
+            // Initial value set in Awake() in this script.
+            // Can remove from inspector with [HideInInspector]
+        [Header("Testing global variable implemented via ScriptableObject")]
+        [Tooltip("Global boolean accessable between scripts without object reference.")]
+        public GlobalBoolVariable pickedUpRadio;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -130,6 +138,7 @@ namespace StarterAssets
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                pickedUpRadio.value = false;
             }
         }
 
@@ -391,7 +400,7 @@ namespace StarterAssets
             }
         }
 
-        // added function and logic for radio pickup
+        // PW: added function and logic for radio pickup
         // is there any argument that the radio object should perform this logic instead?
         private void OnTriggerEnter(Collider other)
         {
@@ -400,12 +409,9 @@ namespace StarterAssets
                 Debug.Log("Player collision with walkie pickup.");
                 
                 other.gameObject.SetActive(false);
-                // could also destroy object
-
-                // TODO
-                // need to set some sort of flag to indicate radio has been picked up
-                // radio needs to emit noise so it can be found
-                // does inactivation remove any audio radio is making, or must it be destroyed?
+                pickedUpRadio.value = true;
+                // above line is global flag see Scripts > ScriptableObjectTemplates
+                // could also destroy object, probably no need
             }
         }
     }
