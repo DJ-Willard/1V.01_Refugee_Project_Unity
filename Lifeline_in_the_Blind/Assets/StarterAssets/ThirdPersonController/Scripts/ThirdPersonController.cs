@@ -84,6 +84,9 @@ namespace StarterAssets
         [Tooltip("Global boolean accessable between scripts without object reference.")]
         public GlobalBoolVariable pickedUpRadio;
 
+        // PW: added public sfx audio source to play pickup sound for radio
+        public AudioSource got_radio;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -410,6 +413,7 @@ namespace StarterAssets
                 
                 other.gameObject.SetActive(false);
                 pickedUpRadio.value = true;
+                got_radio.Play();
                 // above line is global flag see Scripts > ScriptableObjectTemplates
                 // could also destroy object, probably no need
             }
