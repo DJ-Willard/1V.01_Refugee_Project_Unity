@@ -57,7 +57,7 @@ public class proximity_music_volume_adjust : MonoBehaviour
         Debug.Log("Ran coroutine");
         while (audio_source.volume < originalVolume)
         {
-            audio_source.volume += 0.00005f;
+            audio_source.volume += 0.0025f;//0.00005f;
             yield return null;
         }
         Debug.Log("Finished coroutine");
