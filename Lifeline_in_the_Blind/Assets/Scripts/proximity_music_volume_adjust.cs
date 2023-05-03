@@ -35,7 +35,7 @@ public class proximity_music_volume_adjust : MonoBehaviour
             if (distance < threshold)
             {
                 newVolume = (distance / threshold) * originalVolume;
-                Debug.Log("IF: Adjusting volume from" + audio_source.volume + " to " + newVolume);
+                //Debug.Log("IF: Adjusting volume from" + audio_source.volume + " to " + newVolume);
                 audio_source.volume = newVolume;
             }
         }

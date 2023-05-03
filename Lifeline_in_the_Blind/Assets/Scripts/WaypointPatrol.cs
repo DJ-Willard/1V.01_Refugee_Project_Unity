@@ -9,7 +9,7 @@ public class WaypointPatrol : MonoBehaviour
     public Transform[] waypoints;
     public Transform target;
     public float dotProductThreshold = -0.9f; // -1 is directly behind
-    public float detectionDistance = 2f; // Note: Dot product does not know distance, this is needed
+    public float detectionDistance = 10f; // Note: Dot product does not know distance, this is needed
     public float onDetectionWaitTime = 3;
     public float turnedWaitTime = 5;
     public float rotationSpeed = 3f;
@@ -33,10 +33,12 @@ public class WaypointPatrol : MonoBehaviour
         direction = Vector3.Normalize(target.position - transform.position);
         distance = Vector3.Distance(transform.position, target.transform.position);
         dot = Vector3.Dot(direction, transform.forward);
+        Debug.Log("Distance from mech = " + distance);
 
         // Detect if something is close behind object within detectionDistance
         if (dot < dotProductThreshold && distance < detectionDistance && stopped == false)
         {
+            Debug.Log("Mech detected player behind it.");
             stopped = true; // stopped boolean is set to true to ensure this only runs once until finished
             navMeshAgent.isStopped = true; // Interrupt AI movement, stop
             StartCoroutine(BehindYou()); // Run the turn around code as coroutine
