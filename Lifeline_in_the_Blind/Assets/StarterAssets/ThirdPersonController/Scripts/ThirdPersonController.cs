@@ -15,8 +15,12 @@ namespace StarterAssets
     public class ThirdPersonController : MonoBehaviour
     {
         [Header("Player")]
-        [Tooltip("Inventory ScriptableObject for handling items.")] // added
+        // Need to decide which inventory system is being used.
+        [Tooltip("Manual implementation of inventory.")] // added
         public InventoryObject inventory;
+
+        [HideInInspector]
+        public bool inventoryOpen;
 
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -147,7 +151,6 @@ namespace StarterAssets
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-                pickedUpRadio.value = false;
             }
         }
 
@@ -169,6 +172,10 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            // reset other variables
+            pickedUpRadio.value = false; // review rework this?
+            inventoryOpen = false;
         }
 
         private void Update()
@@ -178,6 +185,7 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+            InventoryToggle();
         }
 
         private void LateUpdate()
@@ -296,6 +304,24 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
+        }
+
+        private void InventoryToggle()
+        {
+            if (_input.inventoryToggle)
+            {
+                if (inventoryOpen)
+                {
+                    inventoryOpen = false;
+                    Debug.Log("Inventory was closed.");
+                }
+                else 
+                {
+                    inventoryOpen = true;
+                    Debug.Log("Inventory was opened.");
+                }
+                _input.inventoryToggle = false;     // you'd think a button wouldn't need this but it does
+            }   
         }
 
         private void JumpAndGravity()
@@ -444,6 +470,7 @@ namespace StarterAssets
         // Or use a different inventory ScriptableObject, such as tutorialInventory.
         private void OnApplicationQuit()
         {
+            // If not using PW inventory system, this does not need to be here
             inventory.Container.Clear();
         }
     }
