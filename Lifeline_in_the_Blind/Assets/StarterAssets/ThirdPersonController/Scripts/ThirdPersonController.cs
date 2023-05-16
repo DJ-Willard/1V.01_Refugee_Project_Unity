@@ -18,6 +18,7 @@ namespace StarterAssets
         // Need to decide which inventory system is being used.
         [Tooltip("Manual implementation of inventory.")] // added
         public InventoryObject inventory;
+        public GameObject inventory_canvas;
 
         [HideInInspector]
         public bool inventoryOpen;
@@ -175,7 +176,7 @@ namespace StarterAssets
 
             // reset other variables
             pickedUpRadio.value = false; // review rework this?
-            inventoryOpen = false;
+            inventoryOpen = true;
         }
 
         private void Update()
@@ -313,11 +314,13 @@ namespace StarterAssets
                 if (inventoryOpen)
                 {
                     inventoryOpen = false;
+                    inventory_canvas.SetActive(false);
                     Debug.Log("Inventory was closed.");
                 }
                 else 
                 {
                     inventoryOpen = true;
+                    inventory_canvas.SetActive(true);
                     Debug.Log("Inventory was opened.");
                 }
                 _input.inventoryToggle = false;     // you'd think a button wouldn't need this but it does
@@ -471,7 +474,8 @@ namespace StarterAssets
         private void OnApplicationQuit()
         {
             // If not using PW inventory system, this does not need to be here
-            inventory.Container.Clear();
+            // Debug: this is turned off for debugging.
+            // inventory.Container.Clear();
         }
     }
 }
