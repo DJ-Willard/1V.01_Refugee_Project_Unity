@@ -1,4 +1,5 @@
-﻿ using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -19,9 +20,11 @@ namespace StarterAssets
         [Tooltip("Manual implementation of inventory.")] // added
         public InventoryObject inventory;
         public GameObject inventory_canvas;
+        public bool fill_example_inventory;
+        public List<ItemObject> example_items = new List<ItemObject>();
 
-        [HideInInspector]
-        public bool inventoryOpen;
+        [HideInInspector] public bool inventoryOpen;
+        [HideInInspector] public bool radioOpen;
 
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -176,7 +179,9 @@ namespace StarterAssets
 
             // reset other variables
             pickedUpRadio.value = false; // review rework this?
+            radioOpen = false;
             inventoryOpen = true;
+            if (fill_example_inventory) FillExampleInventory();
         }
 
         private void Update()
@@ -187,6 +192,7 @@ namespace StarterAssets
             GroundedCheck();
             Move();
             InventoryToggle();
+            RadioToggle();
         }
 
         private void LateUpdate()
@@ -324,6 +330,26 @@ namespace StarterAssets
                     Debug.Log("Inventory was opened.");
                 }
                 _input.inventoryToggle = false;     // you'd think a button wouldn't need this but it does
+            }   
+        }
+
+        private void RadioToggle()
+        {
+            if (_input.radioToggle)
+            {
+                if (radioOpen)
+                {
+                    radioOpen = false;
+                    // ANY CLOSE RADIO CODE HERE
+                    Debug.Log("Radio was closed.");
+                }
+                else 
+                {
+                    radioOpen = true;
+                    // OPEN RADIO CODE HERE
+                    Debug.Log("Radio was opened.");
+                }
+                _input.radioToggle = false;     // you'd think a button wouldn't need this but it does
             }   
         }
 
@@ -467,15 +493,23 @@ namespace StarterAssets
             }
         }
 
+        private void FillExampleInventory()
+        {
+            Debug.Log("FillExampleInventory() called.");
+            for (int i = 0; i < example_items.Count; i++)
+            {
+                inventory.AddItem(example_items[i], 10);
+            }
+        }
+
         // PW: added. Since ScriptableObjects are persistent, need to
         // the inventory to empty on game quit.
         // Could have a similar function to fill inventory, at least for debug.
         // Or use a different inventory ScriptableObject, such as tutorialInventory.
         private void OnApplicationQuit()
         {
-            // If not using PW inventory system, this does not need to be here
-            // Debug: this is turned off for debugging.
-            // inventory.Container.Clear();
+            // Review If not using PW inventory system, this does not need to be here
+            inventory.Container.Clear();
         }
     }
 }

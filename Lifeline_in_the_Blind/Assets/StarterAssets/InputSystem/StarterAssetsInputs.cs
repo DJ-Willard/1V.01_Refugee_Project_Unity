@@ -14,6 +14,7 @@ namespace StarterAssets
 		public bool sprint;
 		public bool crouch;
 		public bool inventoryToggle;
+		public bool radioToggle;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -55,6 +56,11 @@ namespace StarterAssets
 		{
 			InventoryToggleInput(value.isPressed);
 		}
+
+		public void OnRadioToggle(InputValue value)
+		{
+			RadioToggleInput(value.isPressed);
+		}
 #endif
 
 
@@ -86,6 +92,11 @@ namespace StarterAssets
 		public void InventoryToggleInput(bool newInventoryToggleState)
 		{
 			inventoryToggle = newInventoryToggleState;
+		}
+
+		public void RadioToggleInput(bool newRadioToggleState)
+		{
+			radioToggle = newRadioToggleState;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)
