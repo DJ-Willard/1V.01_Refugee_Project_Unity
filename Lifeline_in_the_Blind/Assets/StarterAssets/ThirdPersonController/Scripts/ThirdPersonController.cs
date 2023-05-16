@@ -15,6 +15,9 @@ namespace StarterAssets
     public class ThirdPersonController : MonoBehaviour
     {
         [Header("Player")]
+        [Tooltip("Inventory ScriptableObject for handling items.")] // added
+        public InventoryObject inventory;
+
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
 
@@ -407,9 +410,22 @@ namespace StarterAssets
         }
 
         // PW: added function and logic for radio pickup
+        // PW: added Inventory behavior
         // is there any argument that the radio object should perform this logic instead?
         private void OnTriggerEnter(Collider other)
         {
+            // Begin inventory behavior
+            // var infers object type. If 'other' has the item script / class add this item to
+            // to the inventory. 
+            var item = other.GetComponent<Item>();
+            if (item)
+            {
+                inventory.AddItem(item.item, 1);
+                Destroy(other.gameObject);
+            }
+            // End inventory behavior
+
+            // Review: consider rewriting this to implement radio as inventory item
             if (other.gameObject.name == "walkie_pickup")
             {
                 Debug.Log("Player collision with walkie pickup.");
@@ -420,6 +436,15 @@ namespace StarterAssets
                 // above line is global flag see Scripts > ScriptableObjectTemplates
                 // could also destroy object, probably no need
             }
+        }
+
+        // PW: added. Since ScriptableObjects are persistent, need to
+        // the inventory to empty on game quit.
+        // Could have a similar function to fill inventory, at least for debug.
+        // Or use a different inventory ScriptableObject, such as tutorialInventory.
+        private void OnApplicationQuit()
+        {
+            inventory.Container.Clear();
         }
     }
 }
