@@ -502,6 +502,16 @@ namespace StarterAssets
             }
         }
 
+        public void OnUse()
+        {
+            // PW: well this works. very cool. The Input System automatically messages this function wherever it's at.
+            // Review This means that my radio and inventory toggles are probably needlessly complex.
+            // Review Annoyingly these messages are only sent within the object. Csharp or Unity events and an event manager
+            //  would be a helpful change of pace for handling things like doors and pickups.
+            // And they are called Update() which is even dumber. 
+            Debug.Log("TPC called OnUse()");
+        }
+
         // PW: added. Since ScriptableObjects are persistent, need to
         // the inventory to empty on game quit.
         // Could have a similar function to fill inventory, at least for debug.

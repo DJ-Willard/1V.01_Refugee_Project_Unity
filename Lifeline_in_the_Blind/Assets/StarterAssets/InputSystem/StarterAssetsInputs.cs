@@ -15,6 +15,7 @@ namespace StarterAssets
 		public bool crouch;
 		public bool inventoryToggle;
 		public bool radioToggle;
+		public bool use;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -61,6 +62,11 @@ namespace StarterAssets
 		{
 			RadioToggleInput(value.isPressed);
 		}
+
+		public void OnUse(InputValue value)
+		{
+			UseInput(value.isPressed);
+		}
 #endif
 
 
@@ -99,6 +105,11 @@ namespace StarterAssets
 			radioToggle = newRadioToggleState;
 		}
 
+		public void UseInput(bool newUseState)
+		{
+			use = newUseState;
+		}
+
 		private void OnApplicationFocus(bool hasFocus)
 		{
 			SetCursorState(cursorLocked);
@@ -106,6 +117,7 @@ namespace StarterAssets
 
 		private void SetCursorState(bool newState)
 		{
+			// commenting this out allows door prefabs to work with mouse, however prevents full rotation of character
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
 		}
 	}
