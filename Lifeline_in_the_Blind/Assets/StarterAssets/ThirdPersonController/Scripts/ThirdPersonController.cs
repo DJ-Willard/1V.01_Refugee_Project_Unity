@@ -99,7 +99,14 @@ namespace StarterAssets
         public GlobalBoolVariable pickedUpRadio;
 
         // PW: added public sfx audio source to play pickup sound for radio
-        public AudioSource got_radio;
+        public AudioSource GotRadio;
+
+        // SD: added music track for when player is walking
+        public AudioSource WalkingMusic;
+        public AudioSource AmbientMusic;
+        [Range(0, 1)] public float MinAmbientVolume = 0.0f;
+        private bool walkingMusicPlaying = false;
+        private float originalVolume;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -182,6 +189,7 @@ namespace StarterAssets
             radioOpen = false;
             inventoryOpen = true;
             if (fill_example_inventory) FillExampleInventory();
+            originalVolume  = AmbientMusic.volume;
         }
 
         private void Update()
@@ -254,7 +262,26 @@ namespace StarterAssets
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+            if (_input.move == Vector2.zero) 
+            {
+                targetSpeed = 0.0f;
+
+                // SD: Stop walking music if it's playing
+                if (walkingMusicPlaying)
+                {
+                    WalkingMusic.Stop();
+                    walkingMusicPlaying = false;
+                    //AmbientMusic.volume = originalVolume;
+                }
+                if (AmbientMusic.volume < originalVolume)
+                {
+                    AmbientMusic.volume += 0.0025f;
+                    if (AmbientMusic.volume > originalVolume)
+                    {
+                        AmbientMusic.volume = originalVolume;
+                    }
+                }
+            }
 
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
@@ -296,6 +323,24 @@ namespace StarterAssets
 
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+
+                // SD: Play walking music if it isn't playing
+                if (!walkingMusicPlaying)
+                {
+                    WalkingMusic.Play();
+                    walkingMusicPlaying = true;
+                }
+                else
+                {
+                    if (AmbientMusic.volume > MinAmbientVolume)
+                    {
+                        AmbientMusic.volume -= 0.005f;
+                        if (AmbientMusic.volume < MinAmbientVolume)
+                        {
+                            AmbientMusic.volume = MinAmbientVolume;
+                        }
+                    }
+                }
             }
 
 
@@ -487,7 +532,7 @@ namespace StarterAssets
                 
                 other.gameObject.SetActive(false);
                 pickedUpRadio.value = true;
-                got_radio.Play();
+                GotRadio.Play();
                 // above line is global flag see Scripts > ScriptableObjectTemplates
                 // could also destroy object, probably no need
             }
