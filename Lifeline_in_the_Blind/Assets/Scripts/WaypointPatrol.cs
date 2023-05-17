@@ -33,7 +33,8 @@ public class WaypointPatrol : MonoBehaviour
         direction = Vector3.Normalize(target.position - transform.position);
         distance = Vector3.Distance(transform.position, target.transform.position);
         dot = Vector3.Dot(direction, transform.forward);
-        Debug.Log("Distance from mech = " + distance);
+
+        // Debug.Log("Distance from mech = " + distance);
 
         // Detect if something is close behind object within detectionDistance
         if (dot < dotProductThreshold && distance < detectionDistance && stopped == false)

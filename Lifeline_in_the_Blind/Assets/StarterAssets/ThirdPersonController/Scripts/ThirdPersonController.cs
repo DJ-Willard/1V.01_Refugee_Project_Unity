@@ -1,4 +1,5 @@
-﻿ using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -15,8 +16,15 @@ namespace StarterAssets
     public class ThirdPersonController : MonoBehaviour
     {
         [Header("Player")]
-        [Tooltip("Inventory ScriptableObject for handling items.")] // added
+        // Need to decide which inventory system is being used.
+        [Tooltip("Manual implementation of inventory.")] // added
         public InventoryObject inventory;
+        public GameObject inventory_canvas;
+        public bool fill_example_inventory;
+        public List<ItemObject> example_items = new List<ItemObject>();
+
+        [HideInInspector] public bool inventoryOpen;
+        [HideInInspector] public bool radioOpen;
 
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -91,7 +99,14 @@ namespace StarterAssets
         public GlobalBoolVariable pickedUpRadio;
 
         // PW: added public sfx audio source to play pickup sound for radio
-        public AudioSource got_radio;
+        public AudioSource GotRadio;
+
+        // SD: added music track for when player is walking
+        public AudioSource WalkingMusic;
+        public AudioSource AmbientMusic;
+        [Range(0, 1)] public float MinAmbientVolume = 0.0f;
+        private bool walkingMusicPlaying = false;
+        private float originalVolume;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -147,7 +162,6 @@ namespace StarterAssets
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-                pickedUpRadio.value = false;
             }
         }
 
@@ -169,6 +183,13 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            // reset other variables
+            pickedUpRadio.value = false; // review rework this?
+            radioOpen = false;
+            inventoryOpen = true;
+            if (fill_example_inventory) FillExampleInventory();
+            originalVolume  = AmbientMusic.volume;
         }
 
         private void Update()
@@ -178,6 +199,8 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+            InventoryToggle();
+            RadioToggle();
         }
 
         private void LateUpdate()
@@ -239,7 +262,26 @@ namespace StarterAssets
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+            if (_input.move == Vector2.zero) 
+            {
+                targetSpeed = 0.0f;
+
+                // SD: Stop walking music if it's playing
+                if (walkingMusicPlaying)
+                {
+                    WalkingMusic.Stop();
+                    walkingMusicPlaying = false;
+                    //AmbientMusic.volume = originalVolume;
+                }
+                if (AmbientMusic.volume < originalVolume)
+                {
+                    AmbientMusic.volume += 0.0025f;
+                    if (AmbientMusic.volume > originalVolume)
+                    {
+                        AmbientMusic.volume = originalVolume;
+                    }
+                }
+            }
 
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
@@ -281,6 +323,24 @@ namespace StarterAssets
 
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+
+                // SD: Play walking music if it isn't playing
+                if (!walkingMusicPlaying)
+                {
+                    WalkingMusic.Play();
+                    walkingMusicPlaying = true;
+                }
+                else
+                {
+                    if (AmbientMusic.volume > MinAmbientVolume)
+                    {
+                        AmbientMusic.volume -= 0.005f;
+                        if (AmbientMusic.volume < MinAmbientVolume)
+                        {
+                            AmbientMusic.volume = MinAmbientVolume;
+                        }
+                    }
+                }
             }
 
 
@@ -296,6 +356,46 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
+        }
+
+        private void InventoryToggle()
+        {
+            if (_input.inventoryToggle)
+            {
+                if (inventoryOpen)
+                {
+                    inventoryOpen = false;
+                    inventory_canvas.SetActive(false);
+                    Debug.Log("Inventory was closed.");
+                }
+                else 
+                {
+                    inventoryOpen = true;
+                    inventory_canvas.SetActive(true);
+                    Debug.Log("Inventory was opened.");
+                }
+                _input.inventoryToggle = false;     // you'd think a button wouldn't need this but it does
+            }   
+        }
+
+        private void RadioToggle()
+        {
+            if (_input.radioToggle)
+            {
+                if (radioOpen)
+                {
+                    radioOpen = false;
+                    // ANY CLOSE RADIO CODE HERE
+                    Debug.Log("Radio was closed.");
+                }
+                else 
+                {
+                    radioOpen = true;
+                    // OPEN RADIO CODE HERE
+                    Debug.Log("Radio was opened.");
+                }
+                _input.radioToggle = false;     // you'd think a button wouldn't need this but it does
+            }   
         }
 
         private void JumpAndGravity()
@@ -432,10 +532,29 @@ namespace StarterAssets
                 
                 other.gameObject.SetActive(false);
                 pickedUpRadio.value = true;
-                got_radio.Play();
+                GotRadio.Play();
                 // above line is global flag see Scripts > ScriptableObjectTemplates
                 // could also destroy object, probably no need
             }
+        }
+
+        private void FillExampleInventory()
+        {
+            Debug.Log("FillExampleInventory() called.");
+            for (int i = 0; i < example_items.Count; i++)
+            {
+                inventory.AddItem(example_items[i], 10);
+            }
+        }
+
+        public void OnUse()
+        {
+            // PW: well this works. very cool. The Input System automatically messages this function wherever it's at.
+            // Review This means that my radio and inventory toggles are probably needlessly complex.
+            // Review Annoyingly these messages are only sent within the object. Csharp or Unity events and an event manager
+            //  would be a helpful change of pace for handling things like doors and pickups.
+            // And they are called Update() which is even dumber. 
+            Debug.Log("TPC called OnUse()");
         }
 
         // PW: added. Since ScriptableObjects are persistent, need to
@@ -444,6 +563,7 @@ namespace StarterAssets
         // Or use a different inventory ScriptableObject, such as tutorialInventory.
         private void OnApplicationQuit()
         {
+            // Review If not using PW inventory system, this does not need to be here
             inventory.Container.Clear();
         }
     }
