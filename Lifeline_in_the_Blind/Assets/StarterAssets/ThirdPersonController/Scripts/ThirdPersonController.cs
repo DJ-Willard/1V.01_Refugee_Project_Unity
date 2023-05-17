@@ -26,6 +26,9 @@ namespace StarterAssets
         [HideInInspector] public bool inventoryOpen;
         [HideInInspector] public bool radioOpen;
 
+        [Tooltip("Sound to play for radio.")]
+        public AudioSource radio_static;
+
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
 
@@ -385,13 +388,13 @@ namespace StarterAssets
                 if (radioOpen)
                 {
                     radioOpen = false;
-                    // ANY CLOSE RADIO CODE HERE
+                    radio_static.Stop();
                     Debug.Log("Radio was closed.");
                 }
                 else 
                 {
                     radioOpen = true;
-                    // OPEN RADIO CODE HERE
+                    radio_static.Play();
                     Debug.Log("Radio was opened.");
                 }
                 _input.radioToggle = false;     // you'd think a button wouldn't need this but it does
