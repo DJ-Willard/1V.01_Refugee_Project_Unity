@@ -8,7 +8,7 @@ namespace SojaExiles
 	public class opencloseDoor1 : MonoBehaviour
 	{
 
-		public Animator openandclose1;
+		public Animator openandclose;
 		public bool open;
 		public Transform Player;
 
@@ -17,18 +17,22 @@ namespace SojaExiles
 			open = false;
 		}
 
+		// PW: This is the built-in functionality but it doesn't open the door every time.
 		void OnMouseOver()
 		{
 			{
 				if (Player)
 				{
 					float dist = Vector3.Distance(Player.position, transform.position);
+					Debug.Log("Distance to door = " + dist);
 					if (dist < 15)
 					{
 						if (open == false)
 						{
-							if (Input.GetMouseButtonDown(0))
+							//if (Input.GetMouseButtonDown(0))
+							if (Input.GetKeyDown("e"))
 							{
+								Debug.Log("opening...");
 								StartCoroutine(opening());
 							}
 						}
@@ -36,8 +40,10 @@ namespace SojaExiles
 						{
 							if (open == true)
 							{
-								if (Input.GetMouseButtonDown(0))
+								//if (Input.GetMouseButtonDown(0))
+								if (Input.GetKeyDown("e"))
 								{
+									Debug.Log("closing...");
 									StartCoroutine(closing());
 								}
 							}
@@ -54,7 +60,7 @@ namespace SojaExiles
 		IEnumerator opening()
 		{
 			print("you are opening the door");
-			openandclose1.Play("Opening 1");
+			openandclose.Play("Opening");
 			open = true;
 			yield return new WaitForSeconds(.5f);
 		}
@@ -62,7 +68,7 @@ namespace SojaExiles
 		IEnumerator closing()
 		{
 			print("you are closing the door");
-			openandclose1.Play("Closing 1");
+			openandclose.Play("Closing");
 			open = false;
 			yield return new WaitForSeconds(.5f);
 		}
