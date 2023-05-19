@@ -258,8 +258,21 @@ namespace StarterAssets
 
         private void Move()
         {
+            float targetSpeed;
             // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            // float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            if (_input.crouch)
+            {
+                targetSpeed = CrouchSpeed;
+            }
+            else if (_input.sprint)
+            {
+                targetSpeed = SprintSpeed;
+            }
+            else
+            {
+                targetSpeed = MoveSpeed;
+            }
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
