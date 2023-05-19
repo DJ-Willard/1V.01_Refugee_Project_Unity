@@ -38,6 +38,9 @@ namespace StarterAssets
         [Tooltip("Crouch speed of the character in m/s")]
         public float CrouchSpeed = 1.0f;
 
+        [Tooltip("How low the character will go when crouching")]
+        public float CrouchHeight = 1.0f;
+
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
         public float RotationSmoothTime = 0.12f;
@@ -110,6 +113,7 @@ namespace StarterAssets
         [Range(0, 1)] public float MinAmbientVolume = 0.0f;
         private bool walkingMusicPlaying = false;
         private float originalVolume;
+        private float originalHeight;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -177,6 +181,7 @@ namespace StarterAssets
             _input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
+            originalHeight = _controller.height;
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
@@ -259,6 +264,7 @@ namespace StarterAssets
         private void Move()
         {
             float targetSpeed;
+            
             // set target speed based on move speed, sprint speed and if sprint is pressed
             // float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
             if (_input.crouch)
@@ -272,6 +278,20 @@ namespace StarterAssets
             else
             {
                 targetSpeed = MoveSpeed;
+            }
+
+            if (_input.crouch)
+            {
+                // Animation changes need to go here. Note this moves the center of the whole hitbox, 
+                // either work around this in the animations or find a good way to move the hitbox without changing position
+                // Something maybe like _animator.SetBool("IsCrouching", true);
+                _controller.height = CrouchHeight;
+                _controller.center.Set(_controller.center.x, _controller.center.y - (CrouchHeight / 2), _controller.center.z);
+            }
+            else
+            {
+                _controller.height = originalHeight;
+                _controller.center.Set(_controller.center.x, _controller.center.y + (CrouchHeight / 2), _controller.center.z);
             }
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
