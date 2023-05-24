@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f884bb56ecacd3e40894cf58e2d955e5, type: 3}
   m_Name: ObjectiveHandler
   m_EditorClassIdentifier: 
-  CurrentMainObj:
-    objectiveDescription: 
+  anObject: {fileID: 0}
+  objectiveTextPanel: {fileID: 0}
+  CurrentMainObj: {fileID: 0}
   MainObjList:
-  - objectiveDescription: Obj1
-  - objectiveDescription: Obj2
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   SideObjList: []

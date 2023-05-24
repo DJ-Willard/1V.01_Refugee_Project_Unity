@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [CreateAssetMenu(fileName = "New ObjectiveHandler", menuName = "Inventory System/ObjectiveHandler")]
 public class ObjectiveHandler : ScriptableObject
@@ -9,14 +10,14 @@ public class ObjectiveHandler : ScriptableObject
     // Side is independent (could do list of queues for more complex dependencies,
     // such as quests.
     // Implementing MainObjectives first
-    public ObjectiveSlot CurrentMainObj;
+    public ObjectiveItem CurrentMainObj;
 
-    public List<ObjectiveSlot> MainObjList = new List<ObjectiveSlot>();
-    public List<ObjectiveSlot> SideObjList = new List<ObjectiveSlot>(); // placeholder
-    private Queue<ObjectiveSlot> MainObjQueue = new Queue<ObjectiveSlot>();
+    public List<ObjectiveItem> MainObjList = new List<ObjectiveItem>();
+    public List<ObjectiveItem> SideObjList = new List<ObjectiveItem>(); // placeholder
+    private Queue<ObjectiveItem> MainObjQueue = new Queue<ObjectiveItem>();
 
     // called by ThirdPersonController in Start()
-    public void InitQueue()
+    public void Init()
     {
         // convert public list to private queue
         for (int i = 0; i < MainObjList.Count; i++)
@@ -24,19 +25,30 @@ public class ObjectiveHandler : ScriptableObject
             // does this work or need new?
             MainObjQueue.Enqueue(MainObjList[i]);
         }
+        // get first objective from queue
+        DQNextObjective();
+    }
 
+    public void DQNextObjective()
+    {
         // Set initial objective from queue
         if (MainObjQueue.TryDequeue(out CurrentMainObj)){
+            //objectiveTextPanel.GetComponent<TextMeshProUGUI>().text = CurrentMainObj.ToString();
             Debug.Log("MainObj successfully set.");
         } else {
             Debug.Log("No remaining MainObj in queue.");
         }
     }
-}
 
-[System.Serializable]
-public class ObjectiveSlot
-{
-    [TextArea(3, 20)]
-    public string objectiveDescription;
+    public string GetCurrObjText()
+    {
+        return CurrentMainObj.objectiveText;
+    }
+
+    public void Quit()
+    {
+        // May or may not want to do this depending on how level transfers work.
+        // Doesn't hurt to have a placeholder quit function. 
+        CurrentMainObj = null;
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -17,7 +18,11 @@ namespace StarterAssets
     {
         [Header("Player")]
         // Need to decide which inventory system is being used.
-        public ObjectiveHandler objectives;
+        [Header("Objectives")]
+        public ObjectiveHandler objectiveHandler;
+        public TMP_Text objectivePromptTMP;
+
+        [Header("Inventory")]
         [Tooltip("Manual implementation of inventory.")] // added
         public InventoryObject inventory;
         public GameObject inventory_canvas;
@@ -202,7 +207,8 @@ namespace StarterAssets
 
             originalVolume  = AmbientMusic.volume;
 
-            objectives.InitQueue();
+            // OBJECTIVES
+            objectiveHandler.Init();
         }
 
         private void Update()
@@ -606,7 +612,7 @@ namespace StarterAssets
         {
             // Review If not using PW inventory system, this does not need to be here
             inventory.InventoryList.Clear();
-            objectives.CurrentMainObj = null;
+            objectiveHandler.Quit();
         }
     }
 }
