@@ -559,6 +559,15 @@ namespace StarterAssets
             }
         }
 
+        private void FillExampleInventory()
+        {
+            Debug.Log("FillExampleInventory() called.");
+            for (int i = 0; i < example_items.Count; i++)
+            {
+                inventory.AddItem(example_items[i], 10);
+            }
+        }
+
         // PW: added function and logic for radio pickup
         // PW: added Inventory behavior
         // is there any argument that the radio object should perform this logic instead?
@@ -585,22 +594,6 @@ namespace StarterAssets
                 Destroy(other.gameObject);
             }
             // End inventory behavior -----------------------------------------
-
-            // todo still need to use this?
-            /*
-            if (other.gameObject.name == "radio_pickup")
-            {
-                Debug.Log("Player collision with radio pickup.");
-                
-                // other.gameObject.SetActive(false);
-                Destroy(other.gameObject);
-                inventory.playerHasRadio = true;
-                GotRadio.Play(); // could be replaced by objective handling object
-
-                objectiveHandler.GetNextMainObjective();
-                // todo make radio show up on canvas
-            }
-            */
         }
 
         // mirror OnTriggerEnter behavior where necessary
@@ -608,17 +601,21 @@ namespace StarterAssets
         {
             if (other.gameObject.CompareTag("InteractivePickup"))
             {
-                interactivePromptTMP.gameObject.SetActive(false);
+                ResetInteractablePromptAndItem();
             }
         }
 
-        private void FillExampleInventory()
+        private void ResetInteractablePromptAndItem()
         {
-            Debug.Log("FillExampleInventory() called.");
-            for (int i = 0; i < example_items.Count; i++)
-            {
-                inventory.AddItem(example_items[i], 10);
-            }
+            interactableItem = null;
+            interactivePromptTMP.gameObject.SetActive(false);
+            interactivePromptTMP.text = "No interactable item in range.";   // for debug in case something goes weird
+        }
+
+        private void UpdateObjective()
+        {
+            objectiveHandler.GetNextMainObjective();
+            objectivePromptTMP.text = objectiveHandler.GetCurrObjText();
         }
 
         public void OnUse()
@@ -629,6 +626,19 @@ namespace StarterAssets
             //  would be a helpful change of pace for handling things like doors and pickups.
             // And they are called Update() which is even dumber. 
             Debug.Log("TPC called OnUse()");
+            if (interactableItem){
+                Debug.Log("used interactableItem");
+                // now determine what interactableItem is and use it appropriately
+                if (interactableItem.name == "radio_pickup")
+                {
+                    Destroy(interactableItem);
+                    ResetInteractablePromptAndItem();
+
+                    inventory.playerHasRadio = true;
+                    GotRadio.Play(); // could be replaced by objective handling object
+                    UpdateObjective(); // just for this object or any objective critical objects. See objectives in scriptableobjects folder.
+                }
+            }
         }
 
         // PW: added. Since ScriptableObjects are persistent, need to
