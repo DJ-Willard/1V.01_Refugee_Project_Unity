@@ -7,8 +7,8 @@ public class ObjectiveItem : ScriptableObject
 {
     // might want to handle this elsewhere or with events
     public GameObject prefabTrigger;
-    [TextArea(3, 20)]
-    public string objectiveText;
+    [TextArea(3, 20)] public string objectiveText;
+    [TextArea(3, 20)] public string description;
 
     // could do onTrigger check in TPC for whether pickup is objective object
     // could also do this with tags, or do precheck with tags,
