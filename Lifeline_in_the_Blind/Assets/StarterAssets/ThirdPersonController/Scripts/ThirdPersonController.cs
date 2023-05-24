@@ -17,6 +17,7 @@ namespace StarterAssets
     {
         [Header("Player")]
         // Need to decide which inventory system is being used.
+        public ObjectiveHandler objectives;
         [Tooltip("Manual implementation of inventory.")] // added
         public InventoryObject inventory;
         public GameObject inventory_canvas;
@@ -195,9 +196,13 @@ namespace StarterAssets
             // reset other variables
             pickedUpRadio.value = false; // review rework this?
             radioOpen = false;
+
             inventoryOpen = true;
             if (fill_example_inventory) FillExampleInventory();
+
             originalVolume  = AmbientMusic.volume;
+
+            objectives.InitQueue();
         }
 
         private void Update()
@@ -601,6 +606,7 @@ namespace StarterAssets
         {
             // Review If not using PW inventory system, this does not need to be here
             inventory.InventoryList.Clear();
+            objectives.CurrentMainObj = null;
         }
     }
 }

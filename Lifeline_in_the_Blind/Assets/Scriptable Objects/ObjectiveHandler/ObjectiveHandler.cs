@@ -15,7 +15,8 @@ public class ObjectiveHandler : ScriptableObject
     public List<ObjectiveSlot> SideObjList = new List<ObjectiveSlot>(); // placeholder
     private Queue<ObjectiveSlot> MainObjQueue = new Queue<ObjectiveSlot>();
 
-    public void Awake()
+    // called by ThirdPersonController in Start()
+    public void InitQueue()
     {
         // convert public list to private queue
         for (int i = 0; i < MainObjList.Count; i++)
@@ -23,7 +24,8 @@ public class ObjectiveHandler : ScriptableObject
             // does this work or need new?
             MainObjQueue.Enqueue(MainObjList[i]);
         }
-        // is this proper syntax for use of 'out' keyword?
+
+        // Set initial objective from queue
         if (MainObjQueue.TryDequeue(out CurrentMainObj)){
             Debug.Log("MainObj successfully set.");
         } else {
@@ -35,6 +37,6 @@ public class ObjectiveHandler : ScriptableObject
 [System.Serializable]
 public class ObjectiveSlot
 {
-    [TextArea(15, 20)]
+    [TextArea(3, 20)]
     public string objectiveDescription;
 }
