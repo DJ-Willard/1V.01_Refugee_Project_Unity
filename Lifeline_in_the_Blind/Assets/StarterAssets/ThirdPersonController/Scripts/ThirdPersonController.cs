@@ -562,7 +562,15 @@ namespace StarterAssets
         // is there any argument that the radio object should perform this logic instead?
         private void OnTriggerEnter(Collider other)
         {
-            // Begin inventory behavior
+            // for pickups requiring 'E' press
+            if (CompareTag("InteractivePickup"))
+            {
+                // possible inventory behavior within
+                // InteractivePickup tag should guarantee interactive prompt available
+                
+            }
+
+            // Begin inventory behavior --------------------------------------
             // var infers object type. If 'other' has the item script / class add this item to
             // to the inventory. 
             var item = other.GetComponent<Item>();
@@ -571,18 +579,20 @@ namespace StarterAssets
                 inventory.AddItem(item.item, 1);
                 Destroy(other.gameObject);
             }
-            // End inventory behavior
+            // End inventory behavior -----------------------------------------
 
             // Review: consider rewriting this to implement radio as inventory item
-            if (other.gameObject.name == "walkie_pickup")
+            if (other.gameObject.name == "radio_pickup")
             {
-                Debug.Log("Player collision with walkie pickup.");
+                Debug.Log("Player collision with radio pickup.");
                 
-                other.gameObject.SetActive(false);
-                pickedUpRadio.value = true;
-                GotRadio.Play();
-                // above line is global flag see Scripts > ScriptableObjectTemplates
-                // could also destroy object, probably no need
+                // other.gameObject.SetActive(false);
+                Destroy(other.gameObject);
+                inventory.playerHasRadio = true;
+                GotRadio.Play(); // could be replaced by objective handling object
+
+                objectiveHandler.GetNextMainObjective();
+                // todo make radio show up on canvas
             }
         }
 

@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentMainObj: {fileID: 0}
   MainObjList:
+  - {fileID: 11400000, guid: f60d2217c2858674285f85555cbfbf6a, type: 2}
   - {fileID: 11400000, guid: d5d4a0c1c2a66b94caaf8c77291bdd03, type: 2}
   - {fileID: 11400000, guid: ad6c9f5a1701b814483535ec595a4973, type: 2}
   - {fileID: 11400000, guid: ddb9113fb957da84f8362b321af26274, type: 2}
+  - {fileID: 11400000, guid: 1a7ee1d84729aa943b5dc18cb0c0a535, type: 2}
+  - {fileID: 11400000, guid: 528fe8c6d99cdf2438e996c9f28b9967, type: 2}
+  - {fileID: 11400000, guid: 5abdd27a94db8af4a8996702b6de7007, type: 2}
+  - {fileID: 11400000, guid: 1e4143295e8237e45b952d3bffcb9cf5, type: 2}
   SideObjList: []

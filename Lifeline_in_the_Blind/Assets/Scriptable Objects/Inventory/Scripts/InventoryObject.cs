@@ -7,7 +7,10 @@ public class InventoryObject : ScriptableObject
 {
     // Could implement as dictionary instead, going with List for the moment.
     // renamed from 'Container' to 'InventoryList'
+    // Could implement second list for special items such as radio that don't 
+    // show up in normal inventory. If more appear, will do that.
     public List<InventorySlot> InventoryList = new List<InventorySlot>();
+    public bool playerHasRadio = false;
 
     // If Container list already has item, just add to amount and return,
     // otherwise loop exits without return and add new item and amount.

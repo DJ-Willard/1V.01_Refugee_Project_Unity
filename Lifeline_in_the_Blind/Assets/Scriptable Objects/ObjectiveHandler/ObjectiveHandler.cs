@@ -26,10 +26,10 @@ public class ObjectiveHandler : ScriptableObject
             MainObjQueue.Enqueue(MainObjList[i]);
         }
         // get first objective from queue
-        DQNextObjective();
+        GetNextMainObjective();
     }
 
-    public void DQNextObjective()
+    public void GetNextMainObjective()
     {
         // Set initial objective from queue
         if (MainObjQueue.TryDequeue(out CurrentMainObj)){
