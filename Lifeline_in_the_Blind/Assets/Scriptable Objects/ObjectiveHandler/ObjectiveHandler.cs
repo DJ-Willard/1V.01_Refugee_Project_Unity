@@ -40,8 +40,17 @@ public class ObjectiveHandler : ScriptableObject
         }
     }
 
+    // Review: ref keyword allows passing of var
+    public void DisplayCurrObjectiveByRef(ref TMP_Text newtext)
+    {
+        Debug.Log("ObjectiveHandler.cs: DCPBR() called.");
+        newtext.text = CurrentMainObj.objectiveText;
+    }
+
     public string GetCurrObjText()
     {
+        Debug.Log("ObjectiveHandler.cs: GetCurrObjText() called.");
+        Debug.Log(CurrentMainObj.objectiveText);
         return CurrentMainObj.objectiveText;
     }
 

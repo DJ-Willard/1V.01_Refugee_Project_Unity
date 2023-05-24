@@ -13,17 +13,17 @@ public class ObjHandlerMono : MonoBehaviour
 
     private void Start()
     {
-        objectiveHandler.Init();
-        DisplayCurrObjective();
+        //objectiveHandler.Init();
+        //DisplayCurrObjective();
     }
 
     public void DisplayCurrObjective()
     {
-        objPromptTMP.text = objectiveHandler.GetCurrObjText();
+        //objPromptTMP.text = objectiveHandler.GetCurrObjText();
     }
 
     private void OnApplicationQuit()
     {
-        objectiveHandler.CurrentMainObj = null;
+        //objectiveHandler.CurrentMainObj = null;
     }
 }

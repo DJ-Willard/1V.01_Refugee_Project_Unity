@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1073a11b24384149a6ffb5870974056, type: 3}
   m_Name: Obj1
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  objectiveText: 
-  anObject: {fileID: 0}
-  anInt: 0
+  prefabTrigger: {fileID: 0}
+  objectiveText: obj1

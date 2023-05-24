@@ -209,6 +209,7 @@ namespace StarterAssets
 
             // OBJECTIVES
             objectiveHandler.Init();
+            objectiveHandler.DisplayCurrObjectiveByRef(ref objectivePromptTMP);
         }
 
         private void Update()
@@ -405,46 +406,6 @@ namespace StarterAssets
             }
         }
 
-        private void InventoryToggle()
-        {
-            if (_input.inventoryToggle)
-            {
-                if (inventoryOpen)
-                {
-                    inventoryOpen = false;
-                    inventory_canvas.SetActive(false);
-                    Debug.Log("Inventory was closed.");
-                }
-                else 
-                {
-                    inventoryOpen = true;
-                    inventory_canvas.SetActive(true);
-                    Debug.Log("Inventory was opened.");
-                }
-                _input.inventoryToggle = false;     // you'd think a button wouldn't need this but it does
-            }   
-        }
-
-        private void RadioToggle()
-        {
-            if (_input.radioToggle)
-            {
-                if (radioOpen)
-                {
-                    radioOpen = false;
-                    radio_static.Stop();
-                    Debug.Log("Radio was closed.");
-                }
-                else 
-                {
-                    radioOpen = true;
-                    radio_static.Play();
-                    Debug.Log("Radio was opened.");
-                }
-                _input.radioToggle = false;     // you'd think a button wouldn't need this but it does
-            }   
-        }
-
         private void JumpAndGravity()
         {
             if (Grounded)
@@ -512,6 +473,46 @@ namespace StarterAssets
             {
                 _verticalVelocity += Gravity * Time.deltaTime;
             }
+        }
+
+                private void InventoryToggle()
+        {
+            if (_input.inventoryToggle)
+            {
+                if (inventoryOpen)
+                {
+                    inventoryOpen = false;
+                    inventory_canvas.SetActive(false);
+                    Debug.Log("Inventory was closed.");
+                }
+                else 
+                {
+                    inventoryOpen = true;
+                    inventory_canvas.SetActive(true);
+                    Debug.Log("Inventory was opened.");
+                }
+                _input.inventoryToggle = false;     // you'd think a button wouldn't need this but it does
+            }   
+        }
+
+        private void RadioToggle()
+        {
+            if (_input.radioToggle)
+            {
+                if (radioOpen)
+                {
+                    radioOpen = false;
+                    radio_static.Stop();
+                    Debug.Log("Radio was closed.");
+                }
+                else 
+                {
+                    radioOpen = true;
+                    radio_static.Play();
+                    Debug.Log("Radio was opened.");
+                }
+                _input.radioToggle = false;     // you'd think a button wouldn't need this but it does
+            }   
         }
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
