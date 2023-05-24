@@ -6,21 +6,45 @@ using UnityEngine;
 public class InventoryObject : ScriptableObject
 {
     // Could implement as dictionary instead, going with List for the moment.
-    public List<InventorySlot> Container = new List<InventorySlot>();
+    // renamed from 'Container' to 'InventoryList'
+    public List<InventorySlot> InventoryList = new List<InventorySlot>();
 
     // If Container list already has item, just add to amount and return,
     // otherwise loop exits without return and add new item and amount.
     public void AddItem(ItemObject _item, int _amount)
     {
-        for (int i = 0; i < Container.Count; i++)
+        for (int i = 0; i < InventoryList.Count; i++)
         {
-            if (Container[i].item == _item)
+            if (InventoryList[i].item == _item)
             {
-                Container[i].AddAmount(_amount);
+                InventoryList[i].AddAmount(_amount);
                 return;
             }
         }
-        Container.Add(new InventorySlot(_item, _amount));
+        InventoryList.Add(new InventorySlot(_item, _amount));
+    }
+
+    // UNTESTED
+    public void RemoveItem(ItemObject _item, int _amount)
+    {
+        bool itemFound = false;
+        for (int i = 0; i < InventoryList.Count; i++)
+        {
+            if (InventoryList[i].item == _item)
+            {
+                InventoryList[i].RemoveAmount(_amount);
+                itemFound = true;
+                if (InventoryList[i].amount == 0)
+                {
+                    InventoryList.RemoveAt(i);
+                }
+                break;
+            }
+        }
+        if (!itemFound)
+        {
+            Debug.LogError("Error: Item to be removed from inventory was not found.");
+        }
     }
 }
 
@@ -39,5 +63,10 @@ public class InventorySlot
     public void AddAmount(int value)
     {
         amount += value;
+    }
+
+    public void RemoveAmount(int value)
+    {
+        amount -= value;
     }
 }

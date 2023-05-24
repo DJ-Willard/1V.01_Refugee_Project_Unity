@@ -600,7 +600,7 @@ namespace StarterAssets
         private void OnApplicationQuit()
         {
             // Review If not using PW inventory system, this does not need to be here
-            inventory.Container.Clear();
+            inventory.InventoryList.Clear();
         }
     }
 }
