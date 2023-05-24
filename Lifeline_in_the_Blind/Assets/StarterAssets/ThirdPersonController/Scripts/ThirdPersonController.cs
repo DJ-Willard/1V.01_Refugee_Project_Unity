@@ -121,6 +121,8 @@ namespace StarterAssets
         private float originalVolume;
         private float originalHeight;
 
+        private GameObject interactableItem = null;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -201,13 +203,13 @@ namespace StarterAssets
             // reset other variables
             pickedUpRadio.value = false; // review rework this?
             radioOpen = false;
-
-            inventoryOpen = true;
-            if (fill_example_inventory) FillExampleInventory();
-
             originalVolume  = AmbientMusic.volume;
 
-            // OBJECTIVES
+            // OBJECTIVES AND UI
+            inventoryOpen = true;
+            interactivePromptTMP.gameObject.SetActive(false);
+            if (fill_example_inventory) FillExampleInventory();
+            
             objectiveHandler.Init();
             objectiveHandler.DisplayCurrObjectiveByRef(ref objectivePromptTMP);
         }
@@ -570,6 +572,7 @@ namespace StarterAssets
                 // InteractivePickup tag should guarantee interactive prompt available
                 interactivePromptTMP.text = "Press 'E' to pick up";
                 interactivePromptTMP.gameObject.SetActive(true);
+                interactableItem = other.gameObject;
             }
 
             // Begin inventory behavior --------------------------------------
@@ -584,6 +587,7 @@ namespace StarterAssets
             // End inventory behavior -----------------------------------------
 
             // todo still need to use this?
+            /*
             if (other.gameObject.name == "radio_pickup")
             {
                 Debug.Log("Player collision with radio pickup.");
@@ -596,12 +600,13 @@ namespace StarterAssets
                 objectiveHandler.GetNextMainObjective();
                 // todo make radio show up on canvas
             }
+            */
         }
 
         // mirror OnTriggerEnter behavior where necessary
         private void OnTriggerExit(Collider other)
         {
-            if (CompareTag("InteractivePickup"))
+            if (other.gameObject.CompareTag("InteractivePickup"))
             {
                 interactivePromptTMP.gameObject.SetActive(false);
             }
