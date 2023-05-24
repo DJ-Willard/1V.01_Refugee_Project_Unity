@@ -18,11 +18,11 @@ namespace StarterAssets
     {
         [Header("Player")]
         // Need to decide which inventory system is being used.
-        [Header("Objectives")]
+        [Header("UI")]
         public ObjectiveHandler objectiveHandler;
         public TMP_Text objectivePromptTMP;
-
-        [Header("Inventory")]
+        public TMP_Text interactivePromptTMP;
+        [Space]
         [Tooltip("Manual implementation of inventory.")] // added
         public InventoryObject inventory;
         public GameObject inventory_canvas;
@@ -563,11 +563,13 @@ namespace StarterAssets
         private void OnTriggerEnter(Collider other)
         {
             // for pickups requiring 'E' press
-            if (CompareTag("InteractivePickup"))
+            if (other.gameObject.CompareTag("InteractivePickup"))
             {
+                Debug.Log("Triggered: InteractivePickup tag");
                 // possible inventory behavior within
                 // InteractivePickup tag should guarantee interactive prompt available
-                
+                interactivePromptTMP.text = "Press 'E' to pick up";
+                interactivePromptTMP.gameObject.SetActive(true);
             }
 
             // Begin inventory behavior --------------------------------------
@@ -581,7 +583,7 @@ namespace StarterAssets
             }
             // End inventory behavior -----------------------------------------
 
-            // Review: consider rewriting this to implement radio as inventory item
+            // todo still need to use this?
             if (other.gameObject.name == "radio_pickup")
             {
                 Debug.Log("Player collision with radio pickup.");
@@ -593,6 +595,15 @@ namespace StarterAssets
 
                 objectiveHandler.GetNextMainObjective();
                 // todo make radio show up on canvas
+            }
+        }
+
+        // mirror OnTriggerEnter behavior where necessary
+        private void OnTriggerExit(Collider other)
+        {
+            if (CompareTag("InteractivePickup"))
+            {
+                interactivePromptTMP.gameObject.SetActive(false);
             }
         }
 

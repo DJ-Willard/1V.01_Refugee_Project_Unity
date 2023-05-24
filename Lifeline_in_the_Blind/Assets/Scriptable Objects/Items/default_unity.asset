@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: default_unity
   m_EditorClassIdentifier: 
   prefab: {fileID: 424380567067151181, guid: ee7d9f4948498ad468d8f410a9a3e03d, type: 3}
-  type: 3
+  type: 4
   description: 

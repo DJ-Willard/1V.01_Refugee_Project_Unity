@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9fee642e0fe1ae4791694bc49ca9730, type: 3}
   m_Name: health_bottle
   m_EditorClassIdentifier: 
-  prefab: {fileID: 424380567067151181, guid: 704c43d7cf21b0843a798bd35c5a1e87, type: 3}
+  prefab: {fileID: 0}
   type: 0
-  description: Test item.
-  restoreHealthValue: 10
+  description: 
+  restoreHealthValue: 0
