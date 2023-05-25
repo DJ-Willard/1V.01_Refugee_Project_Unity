@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace SojaExiles
 
+// PW NOTE: opencloseDoor1.cs is unedited copy if we need it again, same folder.
+// Editing this file to work with use 'E' interaction style, keeping animations.
+
 {
 	public class opencloseDoor : MonoBehaviour
 	{
@@ -17,45 +20,29 @@ namespace SojaExiles
 			open = false;
 		}
 
-		// PW: This is the built-in functionality but it doesn't open the door every time.
-		void OnMouseOver()
+		// PW addition
+		public void sendMessageTest()
 		{
+			Debug.Log("Different script sucessfully called sendMessageTest().");
+		}
+
+		// PW: This is the built-in functionality but it doesn't open the door every time.
+		public void UseDoor()
+		{
+
+			if (open == false)
 			{
-				if (Player)
-				{
-					float dist = Vector3.Distance(Player.position, transform.position);
-					Debug.Log("Distance to door = " + dist);
-					if (dist < 15)
-					{
-						if (open == false)
-						{
-							//if (Input.GetMouseButtonDown(0))
-							if (Input.GetKeyDown("e"))
-							{
-								Debug.Log("opening...");
-								StartCoroutine(opening());
-							}
-						}
-						else
-						{
-							if (open == true)
-							{
-								//if (Input.GetMouseButtonDown(0))
-								if (Input.GetKeyDown("e"))
-								{
-									Debug.Log("closing...");
-									StartCoroutine(closing());
-								}
-							}
-
-						}
-
-					}
-				}
-
+				Debug.Log("opening...");
+				StartCoroutine(opening());
+			}
+			else
+			{
+				Debug.Log("closing...");
+				StartCoroutine(closing());
 			}
 
 		}
+
 
 		IEnumerator opening()
 		{
@@ -72,7 +59,5 @@ namespace SojaExiles
 			open = false;
 			yield return new WaitForSeconds(.5f);
 		}
-
-
 	}
 }

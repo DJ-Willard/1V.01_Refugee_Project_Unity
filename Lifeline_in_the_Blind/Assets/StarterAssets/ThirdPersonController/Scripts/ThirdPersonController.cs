@@ -583,6 +583,16 @@ namespace StarterAssets
                 interactivePromptTMP.gameObject.SetActive(true);
                 interactableItem = other.gameObject;
             }
+            
+            // todo for doors. testing
+            if (other.gameObject.CompareTag("OpenDoor"))
+            {
+                Debug.Log("Triggered: OpenDoor tag");
+
+                interactivePromptTMP.text = "Press 'E' use door";
+                interactivePromptTMP.gameObject.SetActive(true);
+                interactableItem = other.gameObject;
+            }
 
             // Begin inventory behavior --------------------------------------
             // var infers object type. If 'other' has the item script / class add this item to
@@ -599,10 +609,16 @@ namespace StarterAssets
         // mirror OnTriggerEnter behavior where necessary
         private void OnTriggerExit(Collider other)
         {
+            // This might cover all interactableItem more cleanly than multiple if,
+            // which are another option to extend example commented out below.
+            if (interactableItem) ResetInteractablePromptAndItem();
+
+            /*
             if (other.gameObject.CompareTag("InteractivePickup"))
             {
                 ResetInteractablePromptAndItem();
             }
+            */
         }
 
         private void ResetInteractablePromptAndItem()
@@ -625,6 +641,7 @@ namespace StarterAssets
             // Review Annoyingly these messages are only sent within the object. Csharp or Unity events and an event manager
             //  would be a helpful change of pace for handling things like doors and pickups.
             // And they are called Update() which is even dumber. 
+            
             Debug.Log("TPC called OnUse()");
             if (interactableItem){
                 Debug.Log("used interactableItem");
@@ -637,6 +654,13 @@ namespace StarterAssets
                     inventory.playerHasRadio = true;
                     GotRadio.Play(); // could be replaced by objective handling object
                     UpdateObjective(); // just for this object or any objective critical objects. See objectives in scriptableobjects folder.
+                }
+                if (interactableItem.gameObject.CompareTag("OpenDoor"))
+                {
+                    // BroadcastMessage calls string-named function in any mono objects and child mono objects in receiver
+                    // https://docs.unity3d.com/ScriptReference/Component.BroadcastMessage.html
+                    // (vs SendMessage which does not traverse hierarchy)
+                    interactableItem.gameObject.BroadcastMessage("UseDoor");
                 }
             }
         }
