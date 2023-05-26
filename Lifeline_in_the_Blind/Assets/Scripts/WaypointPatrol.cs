@@ -21,6 +21,7 @@ public class WaypointPatrol : MonoBehaviour
     private float dot;
     private bool stopped = false;
     private bool canRotate = false;
+    private Animator anim;
     private StarterAssets.StarterAssetsInputs targetInput;
 
     int m_CurrentWaypointIndex;
@@ -28,6 +29,7 @@ public class WaypointPatrol : MonoBehaviour
     void Start()
     {
         targetInput = targetObject.GetComponent<StarterAssets.StarterAssetsInputs>();
+        anim = GetComponent<Animator>();
         navMeshAgent.SetDestination(waypoints[0].position);
     }
 
@@ -41,6 +43,7 @@ public class WaypointPatrol : MonoBehaviour
         // Detect if something is close behind object within detectionDistance
         if (canHear && dot < dotProductThreshold && distance < detectionDistance && stopped == false && !targetInput.crouch)
         {
+            anim.SetBool("isWalking", false);
             stopped = true; // stopped boolean is set to true to ensure this only runs once until finished
             navMeshAgent.isStopped = true; // Interrupt AI movement, stop
             StartCoroutine(BehindYou()); // Run the turn around code as coroutine
@@ -68,5 +71,6 @@ public class WaypointPatrol : MonoBehaviour
         canRotate = false;
         stopped = false; // Resume movement, reset detection
         navMeshAgent.isStopped = false;
+        anim.SetBool("isWalking", true);
     }
 }
