@@ -582,6 +582,8 @@ namespace StarterAssets
         private void FillExampleInventory()
         {
             Debug.Log("FillExampleInventory() called.");
+
+            inventory.InventoryList.Clear();
             for (int i = 0; i < example_items.Count; i++)
             {
                 inventory.AddItem(example_items[i], 10);
