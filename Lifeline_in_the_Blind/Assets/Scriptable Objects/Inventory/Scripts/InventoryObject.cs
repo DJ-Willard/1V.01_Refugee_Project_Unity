@@ -10,7 +10,15 @@ public class InventoryObject : ScriptableObject
     // Could implement second list for special items such as radio that don't 
     // show up in normal inventory. If more appear, will do that.
     public List<InventorySlot> InventoryList = new List<InventorySlot>();
-    public bool playerHasRadio = false;
+    public bool playerHasRadio;
+
+    public void OnEnable()
+    {
+        // ScriptableObject DOES NOT re-enable on scenemanager.loadscene()
+        // Depends on what behavior we want, i.e. if there are any checkpoints.
+        // Should user retain inventory and radio if they die? 
+        playerHasRadio = false;
+    }
 
     // If Container list already has item, just add to amount and return,
     // otherwise loop exits without return and add new item and amount.

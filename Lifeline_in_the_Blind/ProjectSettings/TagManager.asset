@@ -8,6 +8,7 @@ TagManager:
   - pickup
   - InteractivePickup
   - OpenDoor
+  - Door_RadioLocked
   layers:
   - Default
   - TransparentFX

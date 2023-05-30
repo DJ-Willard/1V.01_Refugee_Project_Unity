@@ -17,36 +17,25 @@ namespace SojaExiles
 			open = false;
 		}
 
-		void OnMouseOver()
+		// PW addition
+		public void sendMessageTest()
 		{
+			Debug.Log("Different script sucessfully called sendMessageTest().");
+		}
+
+		// PW: This is the built-in functionality but it doesn't open the door every time.
+		public void UseDoor()
+		{
+
+			if (open == false)
 			{
-				if (Player)
-				{
-					float dist = Vector3.Distance(Player.position, transform.position);
-					if (dist < 15)
-					{
-						if (open == false)
-						{
-							if (Input.GetMouseButtonDown(0))
-							{
-								StartCoroutine(opening());
-							}
-						}
-						else
-						{
-							if (open == true)
-							{
-								if (Input.GetMouseButtonDown(0))
-								{
-									StartCoroutine(closing());
-								}
-							}
-
-						}
-
-					}
-				}
-
+				Debug.Log("opening...");
+				StartCoroutine(opening());
+			}
+			else
+			{
+				Debug.Log("closing...");
+				StartCoroutine(closing());
 			}
 
 		}

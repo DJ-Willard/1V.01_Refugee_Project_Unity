@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+// using System;    // conflicts with UnityEngine, just call by System.<> instead 
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -123,6 +124,7 @@ namespace StarterAssets
         private float maxWalkingVolume;
         private float originalHeight;
 
+        // PW for handling interactions and tag changes
         private GameObject interactableItem = null;
 
         // cinemachine
@@ -607,7 +609,7 @@ namespace StarterAssets
             }
             
             // todo for doors. testing
-            if (other.gameObject.CompareTag("OpenDoor"))
+            if (other.gameObject.CompareTag("OpenDoor") || other.gameObject.CompareTag("Door_RadioLocked"))
             {
                 Debug.Log("Triggered: OpenDoor tag");
 
@@ -672,17 +674,31 @@ namespace StarterAssets
                 {
                     Destroy(interactableItem);
                     ResetInteractablePromptAndItem();
-
                     inventory.playerHasRadio = true;
+                    GameObject[] gos = GameObject.FindGameObjectsWithTag("Door_RadioLocked");
+                    foreach (GameObject go in gos)
+                    {
+                        go.tag = "OpenDoor";
+                    }
                     GotRadio.Play(); // could be replaced by objective handling object
                     UpdateObjective(); // just for this object or any objective critical objects. See objectives in scriptableobjects folder.
                 }
-                if (interactableItem.gameObject.CompareTag("OpenDoor"))
+                else if (interactableItem.gameObject.CompareTag("OpenDoor"))
                 {
                     // BroadcastMessage calls string-named function in any mono objects and child mono objects in receiver
                     // https://docs.unity3d.com/ScriptReference/Component.BroadcastMessage.html
                     // (vs SendMessage which does not traverse hierarchy)
                     interactableItem.gameObject.BroadcastMessage("UseDoor");
+                }
+                else if (interactableItem.gameObject.CompareTag("Door_RadioLocked"))
+                {
+                    if (inventory.playerHasRadio)
+                    {
+                        interactableItem.gameObject.BroadcastMessage("UseDoor");           
+                    } else {
+                        interactivePromptTMP.text = "Find Radio before leaving apartment";
+                        interactivePromptTMP.gameObject.SetActive(true); 
+                    }
                 }
             }
         }
