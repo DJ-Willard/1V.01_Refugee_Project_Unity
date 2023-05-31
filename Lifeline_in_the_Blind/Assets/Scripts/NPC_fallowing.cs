@@ -15,10 +15,10 @@ public class NPC_fallowing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Lookat(Player.transform);
-        if(Physics.Raycast(transform.position.TransformDirection(Vector3.forward),out Shot))
+        transform.LookAt(Player.transform);
+        if(Physics.Raycast(transform.position,TransformDirection(Vector3.forward),out Shot))
         {
-            TargetDistance = Shot.Distance;
+            TargetDistance = Shot.distance;
             //NPC is of range of player
             if(TargetDistance >= AllowedDistance)
             {
@@ -30,7 +30,7 @@ public class NPC_fallowing : MonoBehaviour
             else 
             {
                 FollowingSpeed = 0;
-                NPC.GetComponent<Animation>().Play("Idle")
+                NPC.GetComponent<Animation>().Play("Idle");
             }
         }
     }
