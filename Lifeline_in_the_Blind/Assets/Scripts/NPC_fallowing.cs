@@ -16,20 +16,20 @@ public class NPC_fallowing : MonoBehaviour
     void Update()
     {
         transform.LookAt(Player.transform);
-        if(Physics.Raycast(transform.position,TransformDirection(Vector3.forward),out Shot))
+        if(Physics.Raycast(transform.position,transform.TransformDirection(Vector3.forward),out Shot))
         {
             TargetDistance = Shot.distance;
             //NPC is of range of player
             if(TargetDistance >= AllowedDistance)
             {
                 FollowSpeed = .1f;
-                NPC.GetComponent<Animation>().play("Walking");
-                transform.position = Vector3.MoveTowards(transform.postion, Player.transform.position, FollowSpeed);
+                NPC.GetComponent<Animation>().Play("Walking");
+                transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, FollowSpeed);
             }
             //NPC in next to player
             else 
             {
-                FollowingSpeed = 0;
+                FollowSpeed = 0;
                 NPC.GetComponent<Animation>().Play("Idle");
             }
         }
