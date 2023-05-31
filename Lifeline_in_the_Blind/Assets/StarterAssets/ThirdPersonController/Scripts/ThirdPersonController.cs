@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using TMPro;
 // using System;    // conflicts with UnityEngine, just call by System.<> instead 
@@ -17,7 +18,6 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
-        [Header("Player")]
         // Need to decide which inventory system is being used.
         [Header("UI")]
         public ObjectiveHandler objectiveHandler;
@@ -33,9 +33,17 @@ namespace StarterAssets
         [HideInInspector] public bool inventoryOpen;
         [HideInInspector] public bool radioOpen;
 
+        [Header("Radio")]
         [Tooltip("Sound to play for radio.")]
         public AudioSource radio_static;
+        public AudioSource radio_beep_src;
+        public AudioClip radio_beep_clip;
+        public float max_pitch;
+        public float min_pitch;
+        public float max_freq;
+        public float min_freq;
 
+        [Header("Movement")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
 
@@ -113,6 +121,7 @@ namespace StarterAssets
 
         // PW: added public sfx audio source to play pickup sound for radio
         public AudioSource GotRadio;
+        // need radio ping rate, transform with lerp or slerp
 
         // SD: added music track for when player is walking
         public AudioSource WalkingMusic;
@@ -525,17 +534,70 @@ namespace StarterAssets
                 if (radioOpen)
                 {
                     radioOpen = false;
-                    radio_static.Stop();
+                    // radio_static.Stop();
+                    // StopCoroutine(RadioPing());  // not sure why this doesn't work. using bool radioOpen instead
                     Debug.Log("Radio was closed.");
                 }
                 else 
                 {
                     radioOpen = true;
-                    radio_static.Play();
                     Debug.Log("Radio was opened.");
+                    // MAIN RADIO CODE
+                    // determine whether facing current objective
+                    StartCoroutine(RadioPing());
                 }
                 _input.radioToggle = false;     // you'd think a button wouldn't need this but it does
             }   
+        }
+
+        IEnumerator RadioPing()
+        {
+            GameObject objectiveGO = GameObject.Find(objectiveHandler.CurrentMainObj.GO_name);
+            Debug.Log(objectiveGO.name);
+            GameObject camera = GameObject.Find("MainCamera");
+            //Vector3 cameraLook;
+            float pitch;
+            float freq;
+            float dot;
+            float dotNormalized;
+            radio_static.Play();
+
+            // Camera direction based
+            while(true)
+            {
+                dot = Vector3.Dot(camera.transform.forward, (objectiveGO.transform.position - camera.transform.position).normalized);
+                dotNormalized = Mathf.InverseLerp(-1, 1, dot);
+                
+                pitch = Mathf.Lerp(min_pitch, max_pitch, dotNormalized);
+                freq = Mathf.Lerp(min_freq, max_freq, dotNormalized);
+                radio_beep_src.pitch = pitch;
+                radio_beep_src.PlayOneShot(radio_beep_clip);
+                
+                Debug.Log("camera.tf.forward" + camera.transform.forward + " ");
+                Debug.Log("dot, dotNormalized, pitch, freq\n" + dot + " " + dotNormalized + " " +  pitch + " " + freq);
+
+                if (!radioOpen) break;
+                yield return new WaitForSeconds(freq);
+            }
+            radio_static.Stop();
+            yield return null;
+
+            /* // Character direction based
+            while(true)
+            {
+                dot = Vector3.Dot(transform.forward, (objectiveGO.transform.position - transform.position).normalized);
+                dotNormalized = Mathf.InverseLerp(-1, 1, dot);
+                
+                pitch = Mathf.Lerp(min_pitch, max_pitch, dotNormalized);
+                freq = Mathf.Lerp(min_freq, max_freq, dotNormalized);
+                radio_beep_src.pitch = pitch;
+                radio_beep_src.PlayOneShot(radio_beep_clip);
+                
+                Debug.Log("1 = facing: " + dot);
+                Debug.Log("dotNormalized, pitch, freq\n" + dotNormalized + " " +  pitch + " " + freq);
+                yield return new WaitForSeconds(freq);
+            }
+            */
         }
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
