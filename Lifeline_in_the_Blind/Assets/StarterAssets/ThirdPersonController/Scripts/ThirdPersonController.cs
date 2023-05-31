@@ -19,6 +19,9 @@ namespace StarterAssets
     public class ThirdPersonController : MonoBehaviour
     {
         // Need to decide which inventory system is being used.
+        [Header("Debug")]
+        public int CurrentObjIndexOverride;
+
         [Header("UI")]
         public ObjectiveHandler objectiveHandler;
         public TMP_Text objectivePromptTMP;
@@ -227,7 +230,7 @@ namespace StarterAssets
             interactivePromptTMP.gameObject.SetActive(false);
             if (fill_example_inventory) FillExampleInventory();
             
-            objectiveHandler.Init();
+            objectiveHandler.Init(CurrentObjIndexOverride);
             objectiveHandler.DisplayCurrObjectiveByRef(ref objectivePromptTMP);
         }
 
@@ -529,25 +532,29 @@ namespace StarterAssets
 
         private void RadioToggle()
         {
-            if (_input.radioToggle)
+            //if (inventory.playerHasRadio)
+            if (true)
             {
-                if (radioOpen)
+                if (_input.radioToggle)
                 {
-                    radioOpen = false;
-                    // radio_static.Stop();
-                    // StopCoroutine(RadioPing());  // not sure why this doesn't work. using bool radioOpen instead
-                    Debug.Log("Radio was closed.");
+                    if (radioOpen)
+                    {
+                        radioOpen = false;
+                        // radio_static.Stop();
+                        // StopCoroutine(RadioPing());  // not sure why this doesn't work. using bool radioOpen instead
+                        Debug.Log("Radio was closed.");
+                    }
+                    else 
+                    {
+                        radioOpen = true;
+                        Debug.Log("Radio was opened.");
+                        // MAIN RADIO CODE
+                        // determine whether facing current objective
+                        StartCoroutine(RadioPing());
+                    }
+                    _input.radioToggle = false;     // you'd think a button wouldn't need this but it does
                 }
-                else 
-                {
-                    radioOpen = true;
-                    Debug.Log("Radio was opened.");
-                    // MAIN RADIO CODE
-                    // determine whether facing current objective
-                    StartCoroutine(RadioPing());
-                }
-                _input.radioToggle = false;     // you'd think a button wouldn't need this but it does
-            }   
+            }
         }
 
         IEnumerator RadioPing()

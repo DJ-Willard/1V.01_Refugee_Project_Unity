@@ -26,7 +26,7 @@ public class ObjectiveHandler : ScriptableObject
     private Queue<ObjectiveItem> MainObjQueue = new Queue<ObjectiveItem>();
 
     // called by ThirdPersonController in Start()
-    public void Init()
+    public void Init(int objIndexOverride = 0)
     {
         /* QUEUE VERSION
         // convert public list to private queue
@@ -40,8 +40,8 @@ public class ObjectiveHandler : ScriptableObject
         */
 
         // LIST VERSION
-        CurrentMainObjIndex = 0;
-        CurrentMainObj = MainObjList[0];
+        CurrentMainObjIndex = objIndexOverride;
+        CurrentMainObj = MainObjList[CurrentMainObjIndex];
     }
 
     public void GetNextMainObjective()
