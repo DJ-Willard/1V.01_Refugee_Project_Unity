@@ -41,6 +41,7 @@ public class ObjectiveHandler : ScriptableObject
 
         // LIST VERSION
         CurrentMainObjIndex = 0;
+        CurrentMainObj = MainObjList[0];
     }
 
     public void GetNextMainObjective()
@@ -59,6 +60,7 @@ public class ObjectiveHandler : ScriptableObject
         if (CurrentMainObjIndex < MainObjList.Count)
         {
             CurrentMainObjIndex++;
+            CurrentMainObj = MainObjList[CurrentMainObjIndex];
             Debug.Log("MainObj index successfully set.");
         } else {
             // reset index here or no? 

@@ -667,7 +667,9 @@ namespace StarterAssets
             
             Debug.Log("TPC called OnUse()");
             if (interactableItem){
-                Debug.Log("used interactableItem");
+                Debug.Log("used interactableItem " + interactableItem.name);
+                Debug.Log("interactableItem = " + interactableItem.name);
+                Debug.Log("currentMainObj.GO_name = "  + objectiveHandler.CurrentMainObj.GO_name);
                 // now determine what interactableItem is and use it appropriately
                 // FIRST CHECK NON-OBJECTIVE / LOCKED ITEMS
                 if (interactableItem.gameObject.CompareTag("OpenDoor"))
@@ -706,18 +708,21 @@ namespace StarterAssets
                 else 
                 {
                     bool badMatchFound = false;
+                    Debug.Log("bad objective match tag comparison:");
                     foreach (ObjectiveItem OI in objectiveHandler.MainObjList)
                     {
-                        if (interactableItem.name == OI.GO_name)
+                        Debug.Log(interactableItem.tag + " ?= " + OI.lock_tag);
+                        if (interactableItem.tag == OI.lock_tag)
                         {
                             interactivePromptTMP.text = OI.objectiveIncompleteText;    
                             interactivePromptTMP.gameObject.SetActive(true);
-                            
+
                             // error handling to debug
                             badMatchFound = true;
                             break;
                         }
                     }
+                    // may want to consider other loops for non-tag locks? this scenario might arise
                     if (!badMatchFound){
                         Debug.Log("Failed to find objective match with current interactable item.");
                     }
