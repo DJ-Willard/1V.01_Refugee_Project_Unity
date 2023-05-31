@@ -607,7 +607,7 @@ namespace StarterAssets
                 interactableItem = other.gameObject;
             }
             
-            // todo for doors. testing
+            // todo for doors. refactor so this checks for objective items, lock tags? 
             if (other.gameObject.CompareTag("OpenDoor") || other.gameObject.CompareTag("Door_RadioLocked"))
             {
                 Debug.Log("Triggered: OpenDoor tag");
@@ -669,27 +669,61 @@ namespace StarterAssets
             if (interactableItem){
                 Debug.Log("used interactableItem");
                 // now determine what interactableItem is and use it appropriately
-                if (interactableItem.name == "radio_pickup")
-                {
-                    Destroy(interactableItem);
-                    ResetInteractablePromptAndItem();
-                    inventory.playerHasRadio = true;
-                    GameObject[] gos = GameObject.FindGameObjectsWithTag("Door_RadioLocked");
-                    foreach (GameObject go in gos)
-                    {
-                        go.tag = "OpenDoor";
-                    }
-                    GotRadio.Play(); // could be replaced by objective handling object
-                    UpdateObjective(); // just for this object or any objective critical objects. See objectives in scriptableobjects folder.
-                }
-                else if (interactableItem.gameObject.CompareTag("OpenDoor"))
+                // FIRST CHECK NON-OBJECTIVE / LOCKED ITEMS
+                if (interactableItem.gameObject.CompareTag("OpenDoor"))
                 {
                     // BroadcastMessage calls string-named function in any mono objects and child mono objects in receiver
                     // https://docs.unity3d.com/ScriptReference/Component.BroadcastMessage.html
                     // (vs SendMessage which does not traverse hierarchy)
                     interactableItem.gameObject.BroadcastMessage("UseDoor");
                 }
-                else if (interactableItem.gameObject.CompareTag("Door_RadioLocked"))
+                
+                // NOW CHECK OBJECTIVE / LOCKED ITEMS
+                // Good current objective match
+                else if (interactableItem.name == objectiveHandler.CurrentMainObj.GO_name)
+                {
+                    // todo refactor to have objhandler do more of this? could leave radio alone and finish others better
+                    // if current obj match, complete objective -- no need for check
+                    // else, display locked prompt text appropriately
+                    // (a way to expand this would be have list of currently available objectives)
+                    // DO CURRENT OBJECTIVE
+                    if (interactableItem.name == "radio_pickup")
+                    {
+                        Destroy(interactableItem);
+                        ResetInteractablePromptAndItem();
+                        inventory.playerHasRadio = true;    // radio is special (may want to turn of inventory if not using)
+                        GameObject[] gos = GameObject.FindGameObjectsWithTag("Door_RadioLocked");
+                        foreach (GameObject go in gos)
+                        {
+                            go.tag = "OpenDoor";
+                        }
+                        GotRadio.Play(); // could be replaced by objective handling object
+                        UpdateObjective(); // just for this object or any objective critical objects. See objectives in scriptableobjects folder.
+                    }
+                    // todo fill remaining objectives
+                }
+                // Bad current objective match, display appropriate text
+                else 
+                {
+                    bool badMatchFound = false;
+                    foreach (ObjectiveItem OI in objectiveHandler.MainObjList)
+                    {
+                        if (interactableItem.name == OI.GO_name)
+                        {
+                            interactivePromptTMP.text = OI.objectiveIncompleteText;    
+                            interactivePromptTMP.gameObject.SetActive(true);
+                            
+                            // error handling to debug
+                            badMatchFound = true;
+                            break;
+                        }
+                    }
+                    if (!badMatchFound){
+                        Debug.Log("Failed to find objective match with current interactable item.");
+                    }
+                }
+                /*
+                if (interactableItem.gameObject.CompareTag("Door_RadioLocked"))
                 {
                     if (inventory.playerHasRadio)
                     {
@@ -699,6 +733,7 @@ namespace StarterAssets
                         interactivePromptTMP.gameObject.SetActive(true); 
                     }
                 }
+                */
             }
         }
 

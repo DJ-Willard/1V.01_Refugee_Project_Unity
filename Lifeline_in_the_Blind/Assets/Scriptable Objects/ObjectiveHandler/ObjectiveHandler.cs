@@ -17,6 +17,10 @@ public class ObjectiveHandler : ScriptableObject
     public ObjectiveItem CurrentMainObj;
 
     public List<ObjectiveItem> MainObjList = new List<ObjectiveItem>();
+    // alternate get implemenation for these (would populate in Init)
+    // public List<string> MainObjGOnames = new List<string>();
+    // public List<string> MainObjLockTags = new List<string>();
+
     public List<ObjectiveItem> SideObjList = new List<ObjectiveItem>(); // placeholder
     public int CurrentMainObjIndex;
     private Queue<ObjectiveItem> MainObjQueue = new Queue<ObjectiveItem>();

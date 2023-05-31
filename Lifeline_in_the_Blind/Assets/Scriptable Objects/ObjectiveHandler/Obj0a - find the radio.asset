@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectiveText: Find the Radio
   objectiveIncompleteText: Find the Radio before leaving apartment
-  objective_GO_name: radio_pickup
+  GO_name: radio_pickup
+  lock_tag: Door_RadioLocked
+  unlock_tag: OpenDoor
   description: 
