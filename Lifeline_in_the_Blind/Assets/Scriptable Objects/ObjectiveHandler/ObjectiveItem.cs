@@ -7,8 +7,9 @@ public class ObjectiveItem : ScriptableObject
 {
     // might want to handle this elsewhere or with events
     // public GameObject prefabTrigger;
-    [TextArea(3, 20)] public string objectiveText;
-    [TextArea(3, 20)] public string objectiveIncompleteText;
+    public string objectiveText;
+    public string objectiveIncompleteText;
+    public string objectiveUnlockedText;
     public string GO_name;
     public string lock_tag;
     public string unlock_tag;
@@ -22,6 +23,7 @@ public class ObjectiveItem : ScriptableObject
     {
         if (objectiveText == "") objectiveText = "not set";
         if (objectiveIncompleteText == "") objectiveIncompleteText = "not set";
+        if (objectiveUnlockedText == "") objectiveUnlockedText = "not set";
         if (GO_name == "") GO_name = "not set";
         if (lock_tag == "") lock_tag = "not set";
         if (lock_tag == "") lock_tag = "not set";

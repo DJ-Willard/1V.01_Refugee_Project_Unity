@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectiveText: Find the Restaurant
   objectiveIncompleteText: not set
+  objectiveUnlockedText: You found the restaurant!
   GO_name: RestaurantTrigger
   lock_tag: not set
   unlock_tag: 

@@ -9,6 +9,7 @@ TagManager:
   - InteractivePickup
   - OpenDoor
   - Door_RadioLocked
+  - Objective
   layers:
   - Default
   - TransparentFX

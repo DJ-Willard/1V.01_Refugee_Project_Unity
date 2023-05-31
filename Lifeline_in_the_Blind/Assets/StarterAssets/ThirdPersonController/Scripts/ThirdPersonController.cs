@@ -510,7 +510,7 @@ namespace StarterAssets
             }
         }
 
-                private void InventoryToggle()
+        private void InventoryToggle()
         {
             if (_input.inventoryToggle)
             {
@@ -580,8 +580,8 @@ namespace StarterAssets
                 radio_beep_src.pitch = pitch;
                 radio_beep_src.PlayOneShot(radio_beep_clip);
                 
-                Debug.Log("camera.tf.forward" + camera.transform.forward + " ");
-                Debug.Log("dot, dotNormalized, pitch, freq\n" + dot + " " + dotNormalized + " " +  pitch + " " + freq);
+                // Debug.Log("camera.tf.forward" + camera.transform.forward + " ");
+                // Debug.Log("dot, dotNormalized, pitch, freq\n" + dot + " " + dotNormalized + " " +  pitch + " " + freq);
 
                 if (!radioOpen) break;
                 yield return new WaitForSeconds(freq);
@@ -686,6 +686,26 @@ namespace StarterAssets
                 interactableItem = other.gameObject;
             }
 
+            if (other.gameObject.CompareTag("Objective"))
+            {
+                if (other.gameObject.name == "RestaurantTrigger")
+                {
+                    if (objectiveHandler.CurrentMainObj.GO_name == "RestaurantTrigger")
+                    {
+                        StartCoroutine(UpdateObjective());
+                    }
+                    // todo else if here? simple walking one like this may not require it
+                }
+                if (other.gameObject.name == "paper_crane_pickup")
+                {
+                    if (objectiveHandler.CurrentMainObj.GO_name == "paper_crane_pickup")
+                    {
+                        StartCoroutine(UpdateObjective());
+                    }
+                    // todo else, display appropriate text. this could use its own coroutine
+                }
+            }
+
             // Begin inventory behavior --------------------------------------
             // var infers object type. If 'other' has the item script / class add this item to
             // to the inventory. 
@@ -720,10 +740,18 @@ namespace StarterAssets
             interactivePromptTMP.text = "No interactable item in range.";   // for debug in case something goes weird
         }
 
-        private void UpdateObjective()
+        // may want to update this to use something other than interativePromptTMP. or not. 1 might be good enough.
+        IEnumerator UpdateObjective()
         {
+            GotRadio.Play();
+            interactivePromptTMP.text = objectiveHandler.CurrentMainObj.objectiveUnlockedText;
+            interactivePromptTMP.gameObject.SetActive(true);
             objectiveHandler.GetNextMainObjective();
             objectivePromptTMP.text = objectiveHandler.GetCurrObjText();
+            yield return new WaitForSeconds(4);
+            interactivePromptTMP.gameObject.SetActive(false);
+            interactivePromptTMP.text = "no interactive prompt set";
+            yield return null;
         }
 
         public void OnUse()
@@ -769,7 +797,7 @@ namespace StarterAssets
                             go.tag = "OpenDoor";
                         }
                         GotRadio.Play(); // could be replaced by objective handling object
-                        UpdateObjective(); // just for this object or any objective critical objects. See objectives in scriptableobjects folder.
+                        StartCoroutine(UpdateObjective()); // just for this object or any objective critical objects. See objectives in scriptableobjects folder.
                     }
                     // todo fill remaining objectives
                 }
