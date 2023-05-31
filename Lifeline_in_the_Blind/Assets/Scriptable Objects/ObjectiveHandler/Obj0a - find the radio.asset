@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1073a11b24384149a6ffb5870974056, type: 3}
   m_Name: Obj0a - find the radio
   m_EditorClassIdentifier: 
-  prefabTrigger: {fileID: 0}
   objectiveText: Find the Radio
+  objectiveIncompleteText: Find the Radio before leaving apartment
+  objective_GO_name: radio_pickup
   description: 
