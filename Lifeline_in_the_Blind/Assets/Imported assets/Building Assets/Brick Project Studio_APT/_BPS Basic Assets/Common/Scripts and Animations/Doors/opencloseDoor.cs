@@ -14,10 +14,12 @@ namespace SojaExiles
 		public Animator openandclose;
 		public bool open;
 		public Transform Player;
+		private new BoxCollider collider;
 
 		void Start()
 		{
 			open = false;
+			collider = GetComponent<BoxCollider>();
 		}
 
 		// PW addition
@@ -48,16 +50,20 @@ namespace SojaExiles
 		{
 			print("you are opening the door");
 			openandclose.Play("Opening");
+			collider.enabled = false;
 			open = true;
 			yield return new WaitForSeconds(.5f);
+			collider.enabled = true;
 		}
 
 		IEnumerator closing()
 		{
 			print("you are closing the door");
 			openandclose.Play("Closing");
+			collider.enabled = false;
 			open = false;
 			yield return new WaitForSeconds(.5f);
+			collider.enabled = true;
 		}
 	}
 }
