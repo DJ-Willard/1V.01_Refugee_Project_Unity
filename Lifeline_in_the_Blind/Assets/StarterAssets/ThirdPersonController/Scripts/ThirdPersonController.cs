@@ -117,11 +117,12 @@ namespace StarterAssets
         // SD: added music track for when player is walking
         public AudioSource WalkingMusic;
         public AudioSource AmbientMusic;
+        public AudioSource EnemyMusic;
         [Range(0, 1)] public float MinAmbientVolume = 0.0f;
         [Range(0, 1)] public float MinWalkingVolume = 0.0f;
-        //private bool walkingMusicPlaying = false;
         private float maxAmbientVolume;
         private float maxWalkingVolume;
+        
         private float originalHeight;
 
         // PW for handling interactions and tag changes
@@ -210,6 +211,7 @@ namespace StarterAssets
             maxAmbientVolume = AmbientMusic.volume;
             maxWalkingVolume = WalkingMusic.volume;
             WalkingMusic.volume = MinWalkingVolume;
+            EnemyMusic.volume = 0.0f;
 
             // OBJECTIVES AND UI
             inventoryOpen = true;
@@ -229,11 +231,16 @@ namespace StarterAssets
             Move();
             InventoryToggle();
             RadioToggle();
+            EnemyMusic.volume -= 0.0075f;
         }
 
         private void LateUpdate()
         {
             CameraRotation();
+            if (AmbientMusic.volume < MinAmbientVolume)
+            {
+                AmbientMusic.volume = MinAmbientVolume;
+            }
         }
 
         private void AssignAnimationIDs()
@@ -331,15 +338,15 @@ namespace StarterAssets
                 }*/
                 if(WalkingMusic.volume > MinWalkingVolume)
                 {
-                    WalkingMusic.volume -= 0.0075f;
-                        if (WalkingMusic.volume < MinWalkingVolume)
-                        {
-                            WalkingMusic.volume = MinWalkingVolume;
-                        }
+                    WalkingMusic.volume -= 0.00325f;
+                    if (WalkingMusic.volume < MinWalkingVolume)
+                    {
+                        WalkingMusic.volume = MinWalkingVolume;
+                    }
                 }
                 if (AmbientMusic.volume < maxAmbientVolume)
                 {
-                    AmbientMusic.volume += 0.0025f;
+                    AmbientMusic.volume += 0.00125f;
                     if (AmbientMusic.volume > maxAmbientVolume)
                     {
                         AmbientMusic.volume = maxAmbientVolume;
@@ -389,22 +396,14 @@ namespace StarterAssets
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 
                 // SD: Play walking music if it isn't playing
-                /*if (!walkingMusicPlaying)
+                if (AmbientMusic.volume > MinAmbientVolume)
                 {
-                    WalkingMusic.Play();
-                    walkingMusicPlaying = true;
-                }
-                else
-                {*/
-                    if (AmbientMusic.volume > MinAmbientVolume)
+                    AmbientMusic.volume -= 0.0025f;
+                    if (AmbientMusic.volume < MinAmbientVolume)
                     {
-                        AmbientMusic.volume -= 0.005f;
-                        if (AmbientMusic.volume < MinAmbientVolume)
-                        {
-                            AmbientMusic.volume = MinAmbientVolume;
-                        }
+                        AmbientMusic.volume = MinAmbientVolume;
                     }
-                //}
+                }
                 if (WalkingMusic.volume < maxWalkingVolume)
                 {
                     WalkingMusic.volume += 0.0025f;

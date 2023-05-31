@@ -6,8 +6,23 @@ using UnityEngine.SceneManagement;
 public class Capture : MonoBehaviour
 {
     public Transform player;
-
+    public AudioSource EnemyMusic;
+    public AudioSource WalkingMusic;
+    public AudioSource AmbientMusic;
+    public float EnemyMusicRange;
+    public bool PlayEnemyMusic;
+    
+    float minEnemyVolume = 0.0f;
+    float maxEnemyVolume;
     bool m_IsPlayerInRange;
+
+    void Awake()
+    {
+        if(PlayEnemyMusic)
+        {
+            maxEnemyVolume = EnemyMusic.volume;
+        }
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -25,7 +40,7 @@ public class Capture : MonoBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         if(m_IsPlayerInRange)
         {
@@ -41,6 +56,28 @@ public class Capture : MonoBehaviour
                 }
             }*/
             SceneManager.LoadScene(0);
+        }
+
+        if(PlayEnemyMusic)
+        {
+            float distance = Vector3.Distance(transform.position, player.position);
+            if(distance < EnemyMusicRange)
+            {
+                EnemyMusic.volume += 0.015f;
+                if(EnemyMusic.volume > maxEnemyVolume)
+                {
+                    EnemyMusic.volume = maxEnemyVolume;
+                }
+                AmbientMusic.volume -= 0.005f;
+                WalkingMusic.volume -= 0.005f;
+            }
+            else
+            {
+                if(EnemyMusic.volume < minEnemyVolume)
+                {
+                    EnemyMusic.volume = minEnemyVolume;
+                }
+            }
         }
     }
 }
