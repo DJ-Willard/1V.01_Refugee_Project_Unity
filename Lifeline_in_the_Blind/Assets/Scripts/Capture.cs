@@ -55,7 +55,7 @@ public class Capture : MonoBehaviour
                     SceneManager.LoadScene(0);
                 }
             }*/
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
 
         if(PlayEnemyMusic)
