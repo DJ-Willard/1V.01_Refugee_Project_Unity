@@ -29,9 +29,9 @@ namespace StarterAssets
         [Space]
         [Tooltip("Manual implementation of inventory.")] // added
         public InventoryObject inventory;
-        public GameObject inventory_canvas;
-        public bool fill_example_inventory;
-        public List<ItemObject> example_items = new List<ItemObject>();
+        // public GameObject inventory_canvas;
+        // public bool fill_example_inventory;
+        // public List<ItemObject> example_items = new List<ItemObject>();
 
         [HideInInspector] public bool inventoryOpen;
         [HideInInspector] public bool radioOpen;
@@ -229,7 +229,7 @@ namespace StarterAssets
             // OBJECTIVES AND UI
             inventoryOpen = true;
             interactivePromptTMP.gameObject.SetActive(false);
-            if (fill_example_inventory) FillExampleInventory();
+            // if (fill_example_inventory) FillExampleInventory();
             
             objectiveHandler.Init(CurrentObjIndexOverride);
             objectiveHandler.DisplayCurrObjectiveByRef(ref objectivePromptTMP);
@@ -242,7 +242,7 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
-            InventoryToggle();
+            //InventoryToggle();
             RadioToggle();
             EnemyMusic.volume -= 0.0075f;
         }
@@ -511,6 +511,7 @@ namespace StarterAssets
             }
         }
 
+/*
         private void InventoryToggle()
         {
             if (_input.inventoryToggle)
@@ -530,6 +531,7 @@ namespace StarterAssets
                 _input.inventoryToggle = false;     // you'd think a button wouldn't need this but it does
             }   
         }
+*/
 
         private void RadioToggle()
         {
@@ -650,6 +652,7 @@ namespace StarterAssets
             }
         }
 
+/*
         private void FillExampleInventory()
         {
             Debug.Log("FillExampleInventory() called.");
@@ -660,6 +663,7 @@ namespace StarterAssets
                 inventory.AddItem(example_items[i], 10);
             }
         }
+*/
 
         // PW: added function and logic for radio pickup
         // PW: added Inventory behavior
