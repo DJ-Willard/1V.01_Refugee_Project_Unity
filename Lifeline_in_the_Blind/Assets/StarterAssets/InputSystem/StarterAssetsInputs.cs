@@ -16,6 +16,7 @@ namespace StarterAssets
 		public bool inventoryToggle;
 		public bool radioToggle;
 		public bool use;
+		public bool StartGame;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -67,6 +68,11 @@ namespace StarterAssets
 		{
 			UseInput(value.isPressed);
 		}
+
+		public void OnStartGame(InputValue value)
+		{
+			UseInput(value.isPressed);
+		}
 #endif
 
 
@@ -108,6 +114,11 @@ namespace StarterAssets
 		public void UseInput(bool newUseState)
 		{
 			use = newUseState;
+		}
+
+		public void StartGameInput(bool newStartGameState)
+		{
+			StartGame = newStartGameState;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)

@@ -32,6 +32,10 @@ namespace StarterAssets
         // public GameObject inventory_canvas;
         // public bool fill_example_inventory;
         // public List<ItemObject> example_items = new List<ItemObject>();
+        private Canvas CanvasStartMenu;
+        private Canvas CanvasDeathMenu;
+        private Canvas Canvas_UI;
+        private bool StartMenuOpen = true;
 
         [HideInInspector] public bool inventoryOpen;
         [HideInInspector] public bool radioOpen;
@@ -227,9 +231,16 @@ namespace StarterAssets
             EnemyMusic.volume = 0.0f;
 
             // OBJECTIVES AND UI
+            Time.timeScale = 0f; // game is initially paused under StartMenu in the same scene
             inventoryOpen = true;
             interactivePromptTMP.gameObject.SetActive(false);
             // if (fill_example_inventory) FillExampleInventory();
+            CanvasStartMenu = GameObject.Find("CanvasStartMenu").GetComponent<Canvas>();
+            CanvasDeathMenu = GameObject.Find("CanvasDeathMenu").GetComponent<Canvas>();
+            Canvas_UI = GameObject.Find("Canvas_UI").GetComponent<Canvas>();
+            CanvasStartMenu.gameObject.SetActive(true);
+            CanvasDeathMenu.gameObject.SetActive(false);
+            Canvas_UI.gameObject.SetActive(false);
             
             objectiveHandler.Init(CurrentObjIndexOverride);
             objectiveHandler.DisplayCurrObjectiveByRef(ref objectivePromptTMP);
@@ -842,6 +853,14 @@ namespace StarterAssets
                 }
                 */
             }
+        }
+
+        public void OnStartGame()
+        {
+            // time pause, see tutorial
+            Time.timeScale = 1f;
+            Canvas_UI.gameObject.SetActive(true);
+            CanvasStartMenu.gameObject.SetActive(false);
         }
 
         // PW: added. Since ScriptableObjects are persistent, need to
