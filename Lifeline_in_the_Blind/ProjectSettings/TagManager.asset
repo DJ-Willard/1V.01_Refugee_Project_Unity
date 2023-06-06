@@ -10,6 +10,7 @@ TagManager:
   - OpenDoor
   - Door_RadioLocked
   - Objective
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

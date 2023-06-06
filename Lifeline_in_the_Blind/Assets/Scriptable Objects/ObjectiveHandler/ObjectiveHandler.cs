@@ -6,89 +6,73 @@ using TMPro;
 [CreateAssetMenu(fileName = "New ObjectiveHandler", menuName = "Inventory System/ObjectiveHandler")]
 public class ObjectiveHandler : ScriptableObject
 {
-    // REFACTORED FROM QUEUE TO NORMAL LIST
-    // Easier to handle with by just holding onto an index in the list.
-    // Allows easier reset during something like SceneManager.LoadScene(0)
-
-    // MainObjectives is dependent list of objectives, must go in order
-    // Side is independent (could do list of queues for more complex dependencies,
-    // such as quests.
-    // Implementing MainObjectives first
     public ObjectiveItem CurrentMainObj;
-
+    public CheckpointItem CurrentCheckpoint;
+    public CheckpointItem NextCheckpoint;
     public List<ObjectiveItem> MainObjList = new List<ObjectiveItem>();
-    // alternate get implemenation for these (would populate in Init)
-    // public List<string> MainObjGOnames = new List<string>();
-    // public List<string> MainObjLockTags = new List<string>();
-
     public List<ObjectiveItem> SideObjList = new List<ObjectiveItem>(); // placeholder
+
+    public List<CheckpointItem> CheckpointList = new List<CheckpointItem>();
     public int CurrentMainObjIndex;
-    private Queue<ObjectiveItem> MainObjQueue = new Queue<ObjectiveItem>();
+    public int CurrentCheckpointIndex;
 
     // called by ThirdPersonController in Start()
-    public void Init(int objIndexOverride = 0)
+    public void Init(int objIndexOverride = 0, int checkpointIndexOverride = 0)
     {
-        /* QUEUE VERSION
-        // convert public list to private queue
-        for (int i = 0; i < MainObjList.Count; i++)
-        {
-            // does this work or need new?
-            MainObjQueue.Enqueue(MainObjList[i]);
-        }
-        // get first objective from queue
-        GetNextMainObjective();
-        */
-
-        // LIST VERSION
         CurrentMainObjIndex = objIndexOverride;
+        CurrentCheckpointIndex = checkpointIndexOverride;
         CurrentMainObj = MainObjList[CurrentMainObjIndex];
+        CurrentCheckpoint = CheckpointList[CurrentCheckpointIndex];
+        SetNextCheckpoint();
     }
 
-    public void GetNextMainObjective()
+    public void IncrementMainObjective()
     {
-        /* QUEUE VERSION
-        // Set initial objective from queue
-        if (MainObjQueue.TryDequeue(out CurrentMainObj)){
-            //objectiveTextPanel.GetComponent<TextMeshProUGUI>().text = CurrentMainObj.ToString();
-            Debug.Log("MainObj successfully set.");
-        } else {
-            Debug.Log("No remaining MainObj in queue.");
-        }
-        */
-
-        // LIST VERSION
         if (CurrentMainObjIndex < MainObjList.Count)
         {
             CurrentMainObjIndex++;
             CurrentMainObj = MainObjList[CurrentMainObjIndex];
-            Debug.Log("MainObj index successfully set.");
+            Debug.Log("MainObj index successfully set to " + CurrentMainObjIndex);
         } else {
             // reset index here or no? 
             Debug.Log("No remaining MainObj in list.");
         }
     }
 
+    public void IncrementCheckpoint()
+    {
+        if (CurrentCheckpointIndex < CheckpointList.Count)
+        {
+            CurrentCheckpointIndex++;
+            CurrentCheckpoint = CheckpointList[CurrentCheckpointIndex];
+            SetNextCheckpoint();
+            Debug.Log("Checkpoint index successfully set to " + CurrentCheckpointIndex);
+        } else {
+            // reset index here or no? 
+            Debug.Log("No remaining checkpoints in list.");
+        }
+    }
+
+    private void SetNextCheckpoint()
+    {
+        int nextCheckpointIndex = CurrentCheckpointIndex + 1;
+        if (nextCheckpointIndex < CheckpointList.Count)
+        {
+            NextCheckpoint = CheckpointList[nextCheckpointIndex];
+        }
+        else Debug.Log("Log: Next checkpoint index out of range.");
+    }
+
     // Review: ref keyword allows passing of var
     public void DisplayCurrObjectiveByRef(ref TMP_Text newtext)
     {
         Debug.Log("ObjectiveHandler.cs: DCPBR() called.");
-        
-        // QUEUE VERSION
-        // newtext.text = CurrentMainObj.objectiveText;
-
-        // LIST VERSION
         newtext.text = MainObjList[CurrentMainObjIndex].objectiveText;
     }
 
     public string GetCurrObjText()
     {
         Debug.Log("ObjectiveHandler.cs: GetCurrObjText() called.");
-        
-        // QUEUE VERSION
-        // Debug.Log(CurrentMainObj.objectiveText);
-        // return CurrentMainObj.objectiveText;
-
-        // LIST VERSION
         return MainObjList[CurrentMainObjIndex].objectiveText;
     }
 

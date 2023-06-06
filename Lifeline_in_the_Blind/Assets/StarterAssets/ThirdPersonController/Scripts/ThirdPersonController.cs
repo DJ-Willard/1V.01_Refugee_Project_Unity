@@ -36,6 +36,7 @@ namespace StarterAssets
         private Canvas CanvasDeathMenu;
         private Canvas Canvas_UI;
         private bool StartMenuOpen = true;
+        private bool DeathMenuOpen = false;
 
         [HideInInspector] public bool inventoryOpen;
         [HideInInspector] public bool radioOpen;
@@ -681,7 +682,7 @@ namespace StarterAssets
         // is there any argument that the radio object should perform this logic instead?
         private void OnTriggerEnter(Collider other)
         {
-            // for pickups requiring 'E' press
+            // PICKUPS requiring 'E' press
             if (other.gameObject.CompareTag("InteractivePickup"))
             {
                 Debug.Log("Triggered: InteractivePickup tag");
@@ -692,7 +693,7 @@ namespace StarterAssets
                 interactableItem = other.gameObject;
             }
             
-            // todo for doors. refactor so this checks for objective items, lock tags? 
+            // DOORS
             if (other.gameObject.CompareTag("OpenDoor") || other.gameObject.CompareTag("Door_RadioLocked"))
             {
                 Debug.Log("Triggered: OpenDoor tag");
@@ -702,6 +703,22 @@ namespace StarterAssets
                 interactableItem = other.gameObject;
             }
 
+            // CHECKPOINTS
+            if (other.gameObject.CompareTag("Checkpoint"))
+            {
+                Debug.Log("triggered Checkpoint tag");
+                // todo logic
+                // if other triggered checkpoint is next checkpoint, advance current checkpoint
+                // else display locked checkpoint logic prompt?
+                if (objectiveHandler.NextCheckpoint.GO_name == other.gameObject.name)
+                {
+                    Debug.Log("Passed next checkpoint");
+                    UpdateCheckpoint();
+                    // ^^ change to coroutine for prompt display?
+                }
+            }
+
+            // OBJECTIVES
             if (other.gameObject.CompareTag("Objective"))
             {
                 if (other.gameObject.name == "RestaurantTrigger")
@@ -756,13 +773,19 @@ namespace StarterAssets
             interactivePromptTMP.text = "No interactable item in range.";   // for debug in case something goes weird
         }
 
+        private void UpdateCheckpoint()
+        {
+            objectiveHandler.IncrementCheckpoint();
+            // other code? should this be a coroutine?
+        }
+
         // may want to update this to use something other than interativePromptTMP. or not. 1 might be good enough.
         IEnumerator UpdateObjective()
         {
             GotRadio.Play();
             interactivePromptTMP.text = objectiveHandler.CurrentMainObj.objectiveUnlockedText;
             interactivePromptTMP.gameObject.SetActive(true);
-            objectiveHandler.GetNextMainObjective();
+            objectiveHandler.IncrementMainObjective();
             objectivePromptTMP.text = objectiveHandler.GetCurrObjText();
             yield return new WaitForSeconds(4);
             interactivePromptTMP.gameObject.SetActive(false);
@@ -858,9 +881,31 @@ namespace StarterAssets
         public void OnStartGame()
         {
             // time pause, see tutorial
-            Time.timeScale = 1f;
-            Canvas_UI.gameObject.SetActive(true);
-            CanvasStartMenu.gameObject.SetActive(false);
+            if (StartMenuOpen)
+            {
+                Time.timeScale = 1f;
+                Canvas_UI.gameObject.SetActive(true);
+                CanvasStartMenu.gameObject.SetActive(false);
+                StartMenuOpen = false;
+            }
+            else if (DeathMenuOpen)
+            {
+                // todo logic
+            }
+            // else handle death menu
+            // else do nothing
+        }
+
+        public void OnLoadLastCheckpoint()
+        {
+            // todo logic
+            // todo create checkpoint system
+        }
+
+        public void LoadCheckpoint(string checkpoint_transform)
+        {
+            // do something
+            // transform.position = ...
         }
 
         // PW: added. Since ScriptableObjects are persistent, need to

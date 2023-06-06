@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ObjectiveHandler
   m_EditorClassIdentifier: 
   CurrentMainObj: {fileID: 0}
+  CurrentCheckpoint: {fileID: 0}
   MainObjList:
   - {fileID: 11400000, guid: f60d2217c2858674285f85555cbfbf6a, type: 2}
   - {fileID: 11400000, guid: d5d4a0c1c2a66b94caaf8c77291bdd03, type: 2}
@@ -23,3 +24,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5abdd27a94db8af4a8996702b6de7007, type: 2}
   - {fileID: 11400000, guid: 1e4143295e8237e45b952d3bffcb9cf5, type: 2}
   SideObjList: []
+  CheckpointList:
+  - {fileID: 11400000, guid: 1f9ef98319727e3469bd5db4671b247d, type: 2}
+  - {fileID: 11400000, guid: 0fc037cf9d49737488d9fab441b27704, type: 2}
+  CurrentMainObjIndex: 0
+  CurrentCheckpointIndex: 0

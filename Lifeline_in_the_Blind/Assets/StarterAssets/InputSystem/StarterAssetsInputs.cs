@@ -17,6 +17,7 @@ namespace StarterAssets
 		public bool radioToggle;
 		public bool use;
 		public bool StartGame;
+		public bool LoadLastCheckpoint;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -71,7 +72,12 @@ namespace StarterAssets
 
 		public void OnStartGame(InputValue value)
 		{
-			UseInput(value.isPressed);
+			StartGameInput(value.isPressed);
+		}
+
+		public void OnLoadLastCheckpoint(InputValue value)
+		{
+			LoadLastCheckpointInput(value.isPressed);
 		}
 #endif
 
@@ -119,6 +125,11 @@ namespace StarterAssets
 		public void StartGameInput(bool newStartGameState)
 		{
 			StartGame = newStartGameState;
+		}
+
+		private void LoadLastCheckpointInput(bool newLoadLastCheckpointState)
+		{
+			LoadLastCheckpoint = newLoadLastCheckpointState;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)

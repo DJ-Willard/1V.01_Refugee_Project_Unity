@@ -55,7 +55,10 @@ public class Capture : MonoBehaviour
                     SceneManager.LoadScene(0);
                 }
             }*/
-            SceneManager.LoadScene(1);
+            // SceneManager.LoadScene(0); // this will now be handled by CanvasDeathMenu and associated code
+
+            // todo new logic
+            // write and call function from TPC script?
         }
 
         if(PlayEnemyMusic)
