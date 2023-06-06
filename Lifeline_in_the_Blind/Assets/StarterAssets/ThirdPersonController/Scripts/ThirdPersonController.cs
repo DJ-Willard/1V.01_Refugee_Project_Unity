@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 // using System;    // conflicts with UnityEngine, just call by System.<> instead 
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
@@ -881,6 +882,13 @@ namespace StarterAssets
             }
         }
 
+        public void DisplayDeathMenu()
+        {
+            Time.timeScale = 0f;
+            DeathMenuOpen = true;
+            CanvasDeathMenu.gameObject.SetActive(true);
+        }
+
         public void OnStartGame()
         {
             // time pause, see tutorial
@@ -893,7 +901,14 @@ namespace StarterAssets
             }
             else if (DeathMenuOpen)
             {
-                // todo logic
+                /*
+                objectiveHandler.Init();
+                inventory.Init();
+                Time.timeScale = 1f;
+                CanvasDeathMenu.gameObject.SetActive(false);
+                DeathMenuOpen = false;
+                */
+                SceneManager.LoadScene("Lv1_city");
             }
             // else handle death menu
             // else do nothing
@@ -902,6 +917,7 @@ namespace StarterAssets
         // Activated by 'L'
         private void OnLoadLastCheckpoint()
         {
+            Time.timeScale = 1f;
             Vector3 newPosition = GameObject.Find(objectiveHandler.CurrentCheckpoint.transform_name).transform.position;
             Debug.Log("transform.position, newPosition: " + transform.position + ", " + newPosition);
             
@@ -911,6 +927,7 @@ namespace StarterAssets
             // Not sure if this impacts performance, or if there is a way to do it through the thirdpersoncontroller.
             // This is simplest.
             transform.position = newPosition;
+            if (DeathMenuOpen) CanvasDeathMenu.gameObject.SetActive(false);
         }
 
         public void LoadCheckpoint(string checkpoint_transform)

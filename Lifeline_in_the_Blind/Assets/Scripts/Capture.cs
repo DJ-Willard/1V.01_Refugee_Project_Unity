@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Capture : MonoBehaviour
 {
+    private GameObject PlayerArmature;
     public Transform player;
     public AudioSource EnemyMusic;
     public AudioSource WalkingMusic;
@@ -22,6 +23,11 @@ public class Capture : MonoBehaviour
         {
             maxEnemyVolume = EnemyMusic.volume;
         }
+    }
+
+    void Start()
+    {
+        PlayerArmature = GameObject.Find("PlayerArmature");
     }
 
     void OnTriggerEnter(Collider other)
@@ -58,7 +64,11 @@ public class Capture : MonoBehaviour
             // SceneManager.LoadScene(0); // this will now be handled by CanvasDeathMenu and associated code
 
             // todo new logic
-            // write and call function from TPC script?
+            // write and call function from TPC script
+            
+            Debug.Log("Capture.cs: SendMessage(\"DisplayDeathMenu\")");
+            PlayerArmature.SendMessage("DisplayDeathMenu");
+            m_IsPlayerInRange = false;  // stops the engine repeatedly doing SendMessage--going to load someplace else anyways
         }
 
         if(PlayEnemyMusic)

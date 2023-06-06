@@ -20,6 +20,11 @@ public class InventoryObject : ScriptableObject
         playerHasRadio = false;
     }
 
+    public void Init()
+    {
+        playerHasRadio = false;
+    }
+
     // If Container list already has item, just add to amount and return,
     // otherwise loop exits without return and add new item and amount.
     public void AddItem(ItemObject _item, int _amount)
