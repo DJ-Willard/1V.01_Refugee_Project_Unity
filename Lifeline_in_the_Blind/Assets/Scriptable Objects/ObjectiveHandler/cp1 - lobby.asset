@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c99555cd7b9ee41a1b891194b455ac, type: 3}
   m_Name: cp1 - lobby
   m_EditorClassIdentifier: 
-  GO_name: cp1_trigger
+  trigger_name: cp1_trigger
   transform_name: cp1_lobby

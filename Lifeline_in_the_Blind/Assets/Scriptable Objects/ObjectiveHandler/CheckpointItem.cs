@@ -8,7 +8,7 @@ public class CheckpointItem : ScriptableObject
     // might want to handle this elsewhere or with events
     // public GameObject prefabTrigger;
     [Tooltip("GameObject name for checkpoint empty trigger.")]
-    public string GO_name;
+    public string trigger_name;
     [Tooltip("Empty whose transform player will be loaded to.")]
     public string transform_name;
 
@@ -18,7 +18,7 @@ public class CheckpointItem : ScriptableObject
 
     public void OnEnable()
     {
-        if (GO_name == "") GO_name = "not set";
+        if (trigger_name == "") trigger_name = "not set";
         if (transform_name == "") transform_name = "not set";
     }
 }

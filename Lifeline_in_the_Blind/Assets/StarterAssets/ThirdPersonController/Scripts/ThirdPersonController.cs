@@ -575,7 +575,7 @@ namespace StarterAssets
         IEnumerator RadioPing()
         {
             GameObject objectiveGO = GameObject.Find(objectiveHandler.CurrentMainObj.GO_name);
-            Debug.Log(objectiveGO.name);
+            Debug.Log("Ping target = " + objectiveGO.name);
             GameObject camera = GameObject.Find("MainCamera");
             //Vector3 cameraLook;
             float pitch;
@@ -596,6 +596,7 @@ namespace StarterAssets
                 radio_beep_src.PlayOneShot(radio_beep_clip);
                 
                 // Debug.Log("camera.tf.forward" + camera.transform.forward + " ");
+                // Debug.Log("Ping target = " + objectiveGO.name);
                 // Debug.Log("dot, dotNormalized, pitch, freq\n" + dot + " " + dotNormalized + " " +  pitch + " " + freq);
 
                 if (!radioOpen) break;
@@ -710,7 +711,7 @@ namespace StarterAssets
                 // todo logic
                 // if other triggered checkpoint is next checkpoint, advance current checkpoint
                 // else display locked checkpoint logic prompt?
-                if (objectiveHandler.NextCheckpoint.GO_name == other.gameObject.name)
+                if (objectiveHandler.NextCheckpoint.trigger_name == other.gameObject.name)
                 {
                     Debug.Log("Passed next checkpoint");
                     UpdateCheckpoint();
@@ -739,6 +740,7 @@ namespace StarterAssets
                 }
             }
 
+            /* INVENTORY REMOVED
             // Begin inventory behavior --------------------------------------
             // var infers object type. If 'other' has the item script / class add this item to
             // to the inventory. 
@@ -749,6 +751,7 @@ namespace StarterAssets
                 Destroy(other.gameObject);
             }
             // End inventory behavior -----------------------------------------
+            */ 
         }
 
         // mirror OnTriggerEnter behavior where necessary
@@ -896,10 +899,18 @@ namespace StarterAssets
             // else do nothing
         }
 
-        public void OnLoadLastCheckpoint()
+        // Activated by 'L'
+        private void OnLoadLastCheckpoint()
         {
-            // todo logic
-            // todo create checkpoint system
+            Vector3 newPosition = GameObject.Find(objectiveHandler.CurrentCheckpoint.transform_name).transform.position;
+            Debug.Log("transform.position, newPosition: " + transform.position + ", " + newPosition);
+            
+            // NOTE: this line did not work until turning ON Project Settings > Physics > Auto Sync Transforms:
+            // "Whether or not to automatically sync transform changes with the physics system whenever a Transform
+            //  component changes."
+            // Not sure if this impacts performance, or if there is a way to do it through the thirdpersoncontroller.
+            // This is simplest.
+            transform.position = newPosition;
         }
 
         public void LoadCheckpoint(string checkpoint_transform)
