@@ -1,80 +1,203 @@
 fileFormatVersion: 2
 guid: cd9b78a9c86705d46a80fffd2c17b681
-timeCreated: 1511371684
-licenseType: Store
 ModelImporter:
-  serializedVersion: 21
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: fence_road_col
-    100004: fence_road_LOD0
-    100006: fence_road_LOD1
-    100008: fence_road_LOD2
-    100010: fence_road_LOD3
-    100012: UCX_fence_road
-    100014: fence_stand_small_LOD0
-    100016: fence_stand_small_LOD1
-    100018: fence_stand_small_LOD2
-    100020: fence_stand_small_LOD3
-    100022: UCX_fence_stand_small
-    400000: //RootNode
-    400002: fence_road_col
-    400004: fence_road_LOD0
-    400006: fence_road_LOD1
-    400008: fence_road_LOD2
-    400010: fence_road_LOD3
-    400012: UCX_fence_road
-    400014: fence_stand_small_LOD0
-    400016: fence_stand_small_LOD1
-    400018: fence_stand_small_LOD2
-    400020: fence_stand_small_LOD3
-    400022: UCX_fence_stand_small
-    2300000: //RootNode
-    2300002: fence_road_col
-    2300004: fence_road_LOD0
-    2300006: fence_road_LOD1
-    2300008: fence_road_LOD2
-    2300010: fence_road_LOD3
-    2300012: UCX_fence_road
-    2300014: fence_stand_small_LOD0
-    2300016: fence_stand_small_LOD1
-    2300018: fence_stand_small_LOD2
-    2300020: fence_stand_small_LOD3
-    2300022: UCX_fence_stand_small
-    3300000: //RootNode
-    3300002: fence_road_col
-    3300004: fence_road_LOD0
-    3300006: fence_road_LOD1
-    3300008: fence_road_LOD2
-    3300010: fence_road_LOD3
-    3300012: UCX_fence_road
-    3300014: fence_stand_small_LOD0
-    3300016: fence_stand_small_LOD1
-    3300018: fence_stand_small_LOD2
-    3300020: fence_stand_small_LOD3
-    3300022: UCX_fence_stand_small
-    4300000: fence_road
-    4300002: fence_road_LOD0
-    4300004: fence_road_col
-    4300006: fence_road_LOD1
-    4300008: fence_road_LOD2
-    4300010: fence_road_LOD3
-    4300012: UCX_fence_road
-    4300014: UCX_fence_stand_small
-    4300016: fence_stand_small_LOD0
-    4300018: fence_stand_small_LOD1
-    4300020: fence_stand_small_LOD2
-    4300022: fence_stand_small_LOD3
-    20500000: //RootNode
+  serializedVersion: 21300
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: fence_road_col
+  - first:
+      1: 100004
+    second: fence_road_LOD0
+  - first:
+      1: 100006
+    second: fence_road_LOD1
+  - first:
+      1: 100008
+    second: fence_road_LOD2
+  - first:
+      1: 100010
+    second: fence_road_LOD3
+  - first:
+      1: 100012
+    second: UCX_fence_road
+  - first:
+      1: 100014
+    second: fence_stand_small_LOD0
+  - first:
+      1: 100016
+    second: fence_stand_small_LOD1
+  - first:
+      1: 100018
+    second: fence_stand_small_LOD2
+  - first:
+      1: 100020
+    second: fence_stand_small_LOD3
+  - first:
+      1: 100022
+    second: UCX_fence_stand_small
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: fence_road_col
+  - first:
+      4: 400004
+    second: fence_road_LOD0
+  - first:
+      4: 400006
+    second: fence_road_LOD1
+  - first:
+      4: 400008
+    second: fence_road_LOD2
+  - first:
+      4: 400010
+    second: fence_road_LOD3
+  - first:
+      4: 400012
+    second: UCX_fence_road
+  - first:
+      4: 400014
+    second: fence_stand_small_LOD0
+  - first:
+      4: 400016
+    second: fence_stand_small_LOD1
+  - first:
+      4: 400018
+    second: fence_stand_small_LOD2
+  - first:
+      4: 400020
+    second: fence_stand_small_LOD3
+  - first:
+      4: 400022
+    second: UCX_fence_stand_small
+  - first:
+      23: 2300000
+    second: //RootNode
+  - first:
+      23: 2300002
+    second: fence_road_col
+  - first:
+      23: 2300004
+    second: fence_road_LOD0
+  - first:
+      23: 2300006
+    second: fence_road_LOD1
+  - first:
+      23: 2300008
+    second: fence_road_LOD2
+  - first:
+      23: 2300010
+    second: fence_road_LOD3
+  - first:
+      23: 2300012
+    second: UCX_fence_road
+  - first:
+      23: 2300014
+    second: fence_stand_small_LOD0
+  - first:
+      23: 2300016
+    second: fence_stand_small_LOD1
+  - first:
+      23: 2300018
+    second: fence_stand_small_LOD2
+  - first:
+      23: 2300020
+    second: fence_stand_small_LOD3
+  - first:
+      23: 2300022
+    second: UCX_fence_stand_small
+  - first:
+      33: 3300000
+    second: //RootNode
+  - first:
+      33: 3300002
+    second: fence_road_col
+  - first:
+      33: 3300004
+    second: fence_road_LOD0
+  - first:
+      33: 3300006
+    second: fence_road_LOD1
+  - first:
+      33: 3300008
+    second: fence_road_LOD2
+  - first:
+      33: 3300010
+    second: fence_road_LOD3
+  - first:
+      33: 3300012
+    second: UCX_fence_road
+  - first:
+      33: 3300014
+    second: fence_stand_small_LOD0
+  - first:
+      33: 3300016
+    second: fence_stand_small_LOD1
+  - first:
+      33: 3300018
+    second: fence_stand_small_LOD2
+  - first:
+      33: 3300020
+    second: fence_stand_small_LOD3
+  - first:
+      33: 3300022
+    second: UCX_fence_stand_small
+  - first:
+      43: 4300000
+    second: fence_road
+  - first:
+      43: 4300002
+    second: fence_road_LOD0
+  - first:
+      43: 4300004
+    second: fence_road_col
+  - first:
+      43: 4300006
+    second: fence_road_LOD1
+  - first:
+      43: 4300008
+    second: fence_road_LOD2
+  - first:
+      43: 4300010
+    second: fence_road_LOD3
+  - first:
+      43: 4300012
+    second: UCX_fence_road
+  - first:
+      43: 4300014
+    second: UCX_fence_stand_small
+  - first:
+      43: 4300016
+    second: fence_stand_small_LOD0
+  - first:
+      43: 4300018
+    second: fence_stand_small_LOD1
+  - first:
+      43: 4300020
+    second: fence_stand_small_LOD2
+  - first:
+      43: 4300022
+    second: fence_stand_small_LOD3
+  - first:
+      205: 20500000
+    second: //RootNode
+  externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -82,6 +205,8 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -90,7 +215,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages:
     - 0.25
@@ -100,19 +225,33 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -120,10 +259,13 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -133,14 +275,18 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
