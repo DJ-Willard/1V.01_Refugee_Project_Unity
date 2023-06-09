@@ -15,7 +15,7 @@ MonoBehaviour:
   objectiveText: Leave the City to the SE
   objectiveIncompleteText: not set
   objectiveUnlockedText: You left the city!
-  GO_name: not set
+  GO_name: cp3_trigger
   lock_tag: not set
   unlock_tag: 
   description: Leave the city to the south.
