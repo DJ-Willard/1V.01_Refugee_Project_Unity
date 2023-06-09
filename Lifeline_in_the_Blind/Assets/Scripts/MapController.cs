@@ -47,6 +47,8 @@ public class MapController : MonoBehaviour
         _playerRepresentation = _root.Q<VisualElement>("Player");
         _root.Q<VisualElement>("Image");
         _mapContainer = _root.Q<VisualElement>("Map");
+
+        ToggleMap(false); // Set the map to the mini-map mode by default
     }
 
     void Update()
