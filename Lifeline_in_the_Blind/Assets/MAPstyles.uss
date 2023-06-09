@@ -24,7 +24,7 @@
     justify-content: center;
     width: 115%;
     height: 100%;
-    background-image: url('project://database/Assets/Maps/mapPos.png?fileID=2800000&guid=7d0819bd836e7bd4bb2c52e44132f90c&type=3#mapPos');
+    background-image: url('project://database/Assets/Maps/THEmap.png?fileID=2800000&guid=dc5915a431c912f4a8c051e312c859d4&type=3#THEmap');
     -unity-background-scale-mode: scale-and-crop;
 }
 
