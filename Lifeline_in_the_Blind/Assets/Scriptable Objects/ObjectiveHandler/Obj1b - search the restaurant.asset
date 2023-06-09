@@ -19,7 +19,7 @@ MonoBehaviour:
     Press M to toggle
     map.
 
-    Find the southesast end of the city.'
+    Take the east road out of town.'
   GO_name: paper_crane_pickup
   lock_tag: not set
   unlock_tag: 
