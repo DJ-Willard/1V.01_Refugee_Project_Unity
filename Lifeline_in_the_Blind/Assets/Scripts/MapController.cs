@@ -7,7 +7,6 @@ public class MapController : MonoBehaviour
 {
 
     // Third-person Controller variables
-    private ThirdPersonController thirdPersonController;
     public GameObject PlayerArmature;
     [Range(1, 15)]
     public float miniMultiplyer = 5.3f;
@@ -17,6 +16,7 @@ public class MapController : MonoBehaviour
     private VisualElement _playerRepresentation;
     private VisualElement _mapContainer;
     private VisualElement _mapImage;
+    private StarterAssets.StarterAssetsInputs _input;
     private bool IsMapOpen => _root.ClassListContains("root-container-full");
     private bool _mapFaded;
    
@@ -41,6 +41,7 @@ public class MapController : MonoBehaviour
 
     void Start()
     {
+        _input = GetComponent<StarterAssets.StarterAssetsInputs>();
         _root = GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>
             ("Container");
         _playerRepresentation = _root.Q<VisualElement>("Player");
@@ -57,10 +58,10 @@ public class MapController : MonoBehaviour
 
     private void LateUpdate()
     {
-        var multiplyer = IsMapOpen ? fullMultiplyer : miniMultiplyer;
+        var multiplier = IsMapOpen ? fullMultiplyer : miniMultiplyer;
         _playerRepresentation.style.translate =
-            new Translate(PlayerArmature.transform.position.x * multiplyer,
-            PlayerArmature.transform.position.z * -multiplyer, 0);
+            new Translate(PlayerArmature.transform.position.x * multiplier,
+            PlayerArmature.transform.position.z * -multiplier, 0);
         _playerRepresentation.style.rotate = new Rotate(
             new Angle(PlayerArmature.transform.rotation.eulerAngles.y));
         if (!IsMapOpen)
@@ -69,9 +70,9 @@ public class MapController : MonoBehaviour
                 _mapContainer.worldBound.width / 2;
             var clampHeight = _mapImage.worldBound.height / 2 -
                 _mapContainer.worldBound.height / 2;
-            var xPos = Mathf.Clamp(PlayerArmature.transform.position.x * -Multiplyer,
+            var xPos = Mathf.Clamp(PlayerArmature.transform.position.x * -multiplier,
                 -clampWidth, clampWidth);
-            var yPos = Mathf.Clamp(PlayerArmature.transform.position.z * Multiplyer,
+            var yPos = Mathf.Clamp(PlayerArmature.transform.position.z * multiplier,
                 -clampHeight, clampHeight);
             _mapImage.style.translate = new Translate(xPos, yPos, 0);
         }
@@ -79,7 +80,7 @@ public class MapController : MonoBehaviour
         {
             _mapImage.style.translate = new Translate(0, 0, 0);
         }
-        MapFaded = IsMapOpen && thirdPersonController.IsMoving();
+        MapFaded = IsMapOpen && (_input.move != Vector2.zero);
     }
 
     private void ToggleMap(bool on)
