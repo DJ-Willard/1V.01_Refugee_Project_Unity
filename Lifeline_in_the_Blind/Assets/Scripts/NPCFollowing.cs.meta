@@ -3,7 +3,14 @@ guid: 2d57d87b202219a46ac0d81620eba8b7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - thePlayer: {instanceID: 0}
+  - npc: {instanceID: 0}
+  - animator: {instanceID: 0}
+  - walkingAnimation: {instanceID: 0}
+  - idleAnimation: {instanceID: 0}
+  - prayingAnimation: {instanceID: 0}
+  - wavingAnimation: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
