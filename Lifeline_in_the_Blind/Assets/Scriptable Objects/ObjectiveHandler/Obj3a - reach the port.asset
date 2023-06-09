@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectiveText: Reach the Port
   objectiveIncompleteText: not set
+  objectiveUnlockedText: 'You found the port!
+
+    Search for your parents.'
   GO_name: not set
   lock_tag: not set
   unlock_tag: 
-  description: 
+  description: Parents should be waving at you at this point.

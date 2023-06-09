@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1073a11b24384149a6ffb5870974056, type: 3}
   m_Name: Obj1c - leave the city
   m_EditorClassIdentifier: 
-  objectiveText: Leave the City
+  objectiveText: Leave the City to the SE
   objectiveIncompleteText: not set
+  objectiveUnlockedText: You left the city!
   GO_name: not set
   lock_tag: not set
   unlock_tag: 

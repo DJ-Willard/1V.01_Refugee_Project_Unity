@@ -14,7 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectiveText: Find the Church
   objectiveIncompleteText: not set
+  objectiveUnlockedText: 'Doctor thanks you and says
+
+    refugees are meeting across
+
+    the
+    inlet at the boat.'
   GO_name: not set
   lock_tag: not set
   unlock_tag: 
-  description: 
+  description: 'Here, show the Mission Ending screen Canvas.
+
+    Put on a timer
+    or hit button to discontinue.
+
+    Doctor should be praying at this spot when
+    complete.'
