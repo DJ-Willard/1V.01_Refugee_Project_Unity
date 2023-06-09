@@ -8,7 +8,12 @@ public class NPCFollowing : MonoBehaviour
     public GameObject npc;
     public float followSpeed;
     public RaycastHit hit;
-    public bool IsActivated = false; 
+    public bool IsActivated = false;
+
+    public Animator animator;
+    public Animation walkingAnimation;
+    public Animation idleAnimation;
+    public Animation prayingAnimation;
 
     public void Activate()
     {
@@ -29,21 +34,21 @@ public class NPCFollowing : MonoBehaviour
                 if (targetDistance <= allowedDistance)
                 {
                     followSpeed = 0.1f;
-                    npc.GetComponent<Animation>().Play("Walking");
+                    walkingAnimation.Play();
                     transform.position = Vector3.MoveTowards(transform.position, thePlayer.transform.position, followSpeed * Time.deltaTime);
                 }
                 // NPC is next to the player
                 else
                 {
                     followSpeed = 0f;
-                    npc.GetComponent<Animation>().Play("Idle");
+                    idleAnimation.Play();
                 }
 
             }
         }
         else
         {
-            npc.GetComponent<Animation>().Play("Waving");
+            wavingAnimation.Play();
         }
             
     }
