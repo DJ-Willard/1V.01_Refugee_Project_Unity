@@ -10,6 +10,11 @@ public class NPCFollowing : MonoBehaviour
     public RaycastHit hit;
     public bool IsActivated = false; 
 
+    public void Activate()
+    {
+        IsActivated = true;
+    }
+
     private void Update()
     {
         transform.LookAt(thePlayer.transform);

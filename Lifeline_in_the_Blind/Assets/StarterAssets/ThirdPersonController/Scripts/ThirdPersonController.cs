@@ -860,6 +860,15 @@ namespace StarterAssets
 
                     // Obj1c passive
                     // Obj2a interactive?
+
+                    // doctor
+                    if (interactableItem.name == "Doctor")
+                    {
+                        ResetInteractablePromptAndItem();
+                        GotRadio.Play();
+                        StartCoroutine(UpdateObjective());
+                        interactableItem.BroadcastMessage("Activate");
+                    }
                 }
                 // Bad current objective match, display appropriate text
                 else 
