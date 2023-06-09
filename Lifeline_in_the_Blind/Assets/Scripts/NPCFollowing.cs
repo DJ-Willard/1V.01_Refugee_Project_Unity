@@ -14,6 +14,7 @@ public class NPCFollowing : MonoBehaviour
     public Animation walkingAnimation;
     public Animation idleAnimation;
     public Animation prayingAnimation;
+    public Animation wavingAnimation;
 
     public void Activate()
     {
