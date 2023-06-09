@@ -62,6 +62,9 @@ namespace StarterAssets
         [Tooltip("Crouch speed of the character in m/s")]
         public float CrouchSpeed = 1.0f;
 
+        [Tooltip("How low the character will go when crouching")]
+        public float CrouchHeight = 1.0f;
+
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
         public float RotationSmoothTime = 0.12f;
@@ -243,9 +246,6 @@ namespace StarterAssets
             
             objectiveHandler.Init(CurrentObjIndexOverride);
             objectiveHandler.DisplayCurrObjectiveByRef(ref objectivePromptTMP);
-
-            OnStartGame();
-            Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void Update()
@@ -386,11 +386,13 @@ namespace StarterAssets
                 // Animation changes need to go here. Note this moves the center of the whole hitbox, 
                 // either work around this in the animations or find a good way to move the hitbox without changing position
                 // Something maybe like _animator.SetBool("IsCrouching", true);
-                _animator.SetBool("Crouching", true);
+                _controller.height = CrouchHeight;
+                _controller.center.Set(_controller.center.x, _controller.center.y - (CrouchHeight / 2), _controller.center.z);
             }
             else
             {
-                _animator.SetBool("Crouching", false);
+                _controller.height = originalHeight;
+                _controller.center.Set(_controller.center.x, _controller.center.y + (CrouchHeight / 2), _controller.center.z);
             }
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
@@ -968,7 +970,6 @@ namespace StarterAssets
             // This is simplest.
             transform.position = newPosition;
             if (DeathMenuOpen) CanvasDeathMenu.gameObject.SetActive(false);
-            DeathMenuOpen = false;
         }
 
         public void LoadCheckpoint(string checkpoint_transform)
