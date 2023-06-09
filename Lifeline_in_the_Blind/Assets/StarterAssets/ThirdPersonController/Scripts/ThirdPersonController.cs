@@ -323,6 +323,8 @@ namespace StarterAssets
             if (_input.crouch)
             {
                 targetSpeed = CrouchSpeed;
+
+                // SD: Stop walking music if it's playing
                 if(WalkingMusic.volume > MinWalkingVolume)
                 {
                     WalkingMusic.volume -= 0.00325f;
@@ -343,6 +345,8 @@ namespace StarterAssets
             else if (_input.sprint)
             {
                 targetSpeed = SprintSpeed;
+
+                // SD: Play walking music if it isn't playing
                 if (AmbientMusic.volume > MinAmbientVolume)
                 {
                     AmbientMusic.volume -= 0.0025f;
@@ -363,6 +367,8 @@ namespace StarterAssets
             else
             {
                 targetSpeed = MoveSpeed;
+
+                // SD: Stop walking music if it's playing
                 if(WalkingMusic.volume > MinWalkingVolume)
                 {
                     WalkingMusic.volume -= 0.00325f;
@@ -402,24 +408,6 @@ namespace StarterAssets
             if (_input.move == Vector2.zero) 
             {
                 targetSpeed = 0.0f;
-
-                // SD: Stop walking music if it's playing
-                /*if(WalkingMusic.volume > MinWalkingVolume)
-                {
-                    WalkingMusic.volume -= 0.00325f;
-                    if (WalkingMusic.volume < MinWalkingVolume)
-                    {
-                        WalkingMusic.volume = MinWalkingVolume;
-                    }
-                }
-                if (AmbientMusic.volume < maxAmbientVolume)
-                {
-                    AmbientMusic.volume += 0.00125f;
-                    if (AmbientMusic.volume > maxAmbientVolume)
-                    {
-                        AmbientMusic.volume = maxAmbientVolume;
-                    }
-                }*/
             }
 
             // a reference to the players current horizontal velocity
@@ -462,24 +450,6 @@ namespace StarterAssets
 
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-
-                // SD: Play walking music if it isn't playing
-                /*if (AmbientMusic.volume > MinAmbientVolume)
-                {
-                    AmbientMusic.volume -= 0.0025f;
-                    if (AmbientMusic.volume < MinAmbientVolume)
-                    {
-                        AmbientMusic.volume = MinAmbientVolume;
-                    }
-                }
-                if (WalkingMusic.volume < maxWalkingVolume)
-                {
-                    WalkingMusic.volume += 0.0025f;
-                    if (WalkingMusic.volume > maxWalkingVolume)
-                    {
-                        WalkingMusic.volume = maxWalkingVolume;
-                    }
-                }*/
             }
 
 
