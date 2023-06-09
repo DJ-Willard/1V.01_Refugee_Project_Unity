@@ -19,7 +19,10 @@ public class MapController : MonoBehaviour
     private StarterAssets.StarterAssetsInputs _input;
     private bool IsMapOpen => _root.ClassListContains("root-container-full");
     private bool _mapFaded;
-   
+
+    //for when paper crane is picked up
+    //private bool paperCranePickedUp = false;
+
     public bool MapFaded
     {
         get => _mapFaded;
@@ -88,11 +91,15 @@ public class MapController : MonoBehaviour
 
     private void ToggleMap(bool on)
     {
-        _root.EnableInClassList("root-container-mini", !on);
-        _root.EnableInClassList("root-container-full", on);
-    }
+        //for papercrane pick up logic
+        //if (paperCranePickedUp)
+        //{
+            _root.EnableInClassList("root-container-mini", !on);
+            _root.EnableInClassList("root-container-full", on);
+        //}
+        }
 
-    private bool IsMoving()
+        private bool IsMoving()
     {
         // Check if the player is currently moving based on their input
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
