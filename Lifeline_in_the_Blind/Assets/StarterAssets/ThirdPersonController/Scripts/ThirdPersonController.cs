@@ -862,12 +862,13 @@ namespace StarterAssets
                     // Obj2a interactive?
 
                     // doctor
-                    if (interactableItem.name == "Doctor")
+                    if (interactableItem.name == "DoctorHyde")
                     {
                         ResetInteractablePromptAndItem();
                         GotRadio.Play();
                         StartCoroutine(UpdateObjective());
                         interactableItem.BroadcastMessage("Activate");
+                        Debug.Log("TPC sent activate message");
                     }
                 }
                 // Bad current objective match, display appropriate text

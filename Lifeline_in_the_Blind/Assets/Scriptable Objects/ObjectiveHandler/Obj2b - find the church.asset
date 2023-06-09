@@ -20,7 +20,7 @@ MonoBehaviour:
 
     the
     inlet at the boat.'
-  GO_name: not set
+  GO_name: ChurchTrigger
   lock_tag: not set
   unlock_tag: 
   description: 'Here, show the Mission Ending screen Canvas.

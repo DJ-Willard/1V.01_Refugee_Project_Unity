@@ -17,7 +17,7 @@ MonoBehaviour:
   objectiveUnlockedText: 'You found the port!
 
     Search for your parents.'
-  GO_name: not set
+  GO_name: OutsideportTrigger
   lock_tag: not set
   unlock_tag: 
   description: Parents should be waving at you at this point.

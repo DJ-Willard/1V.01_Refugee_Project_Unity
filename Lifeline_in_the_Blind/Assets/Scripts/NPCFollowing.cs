@@ -18,6 +18,7 @@ public class NPCFollowing : MonoBehaviour
 
     public void Activate()
     {
+        Debug.Log("NPCFollowing receive messages activate");
         IsActivated = true;
     }
 
@@ -52,5 +53,16 @@ public class NPCFollowing : MonoBehaviour
             wavingAnimation.Play();
         }
             
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Doctor triggered collider");
+        if (other.gameObject.name == "MissionEnding")
+        {
+            Debug.Log("MissionEnding collider triggered");
+            npc.GetComponent<Animation>().Play("Praying");
+        }
+
     }
 }

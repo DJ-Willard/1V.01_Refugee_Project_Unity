@@ -22,7 +22,7 @@ MonoBehaviour:
     can continue his work.
 
     (East across the inlet).'
-  GO_name: not set
+  GO_name: DoctorHyde
   lock_tag: not set
   unlock_tag: 
   description: 
