@@ -5,17 +5,21 @@ using UnityEngine.UIElements;
 
 public class MapController : MonoBehaviour
 {
-    public GameObject Player;
+
+    // Third-person Controller variables
+    private ThirdPersonController thirdPersonController;
+    public GameObject PlayerArmature;
     [Range(1, 15)]
-    public float miniMultiplier = 5.3f;
+    public float miniMultiplyer = 5.3f;
     [Range(1, 15)]
-    public float fullMultiplier = 7f;
+    public float fullMultiplyer = 7f;
     private VisualElement _root;
     private VisualElement _playerRepresentation;
     private VisualElement _mapContainer;
     private VisualElement _mapImage;
     private bool IsMapOpen => _root.ClassListContains("root-container-full");
     private bool _mapFaded;
+   
     public bool MapFaded
     {
         get => _mapFaded;
@@ -37,12 +41,10 @@ public class MapController : MonoBehaviour
 
     void Start()
     {
-        _root = GetComponent<UIDocument>().rootVisualElement;
+        _root = GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>
+            ("Container");
         _playerRepresentation = _root.Q<VisualElement>("Player");
-        _mapContainer = _root.Q<VisualElement>("MapContainer");
-        _mapImage = _mapContainer.Q<VisualElement>("MapImage");
-
-        _mapImage.style.translate = new Translate(Player.transform.position.x * -miniMultiplier, Player.transform.position.z * miniMultiplier, 0);
+        _mapImage.style.translate = new Translate(Player.transform.position.x * -Multiplyer, Player.transform.position.z * Multiplyer, 0);
     }
 
     void Update()
@@ -55,21 +57,21 @@ public class MapController : MonoBehaviour
 
     private void LateUpdate()
     {
-        var multiplier = IsMapOpen ? fullMultiplier : miniMultiplier;
+        var multiplyer = IsMapOpen ? fullMultiplyer : miniMultiplyer;
         _playerRepresentation.style.translate =
-            new Translate(Player.transform.position.x * multiplier,
-            Player.transform.position.z * -multiplier, 0);
+            new Translate(PlayerArmature.transform.position.x * multiplyer,
+            PlayerArmature.transform.position.z * -multiplyer, 0);
         _playerRepresentation.style.rotate = new Rotate(
-            new Angle(Player.transform.rotation.eulerAngles.y));
+            new Angle(PlayerArmature.transform.rotation.eulerAngles.y));
         if (!IsMapOpen)
         {
             var clampWidth = _mapImage.worldBound.width / 2 -
                 _mapContainer.worldBound.width / 2;
             var clampHeight = _mapImage.worldBound.height / 2 -
                 _mapContainer.worldBound.height / 2;
-            var xPos = Mathf.Clamp(Player.transform.position.x * -miniMultiplier,
+            var xPos = Mathf.Clamp(PlayerArmature.transform.position.x * -Multiplyer,
                 -clampWidth, clampWidth);
-            var yPos = Mathf.Clamp(Player.transform.position.z * miniMultiplier,
+            var yPos = Mathf.Clamp(PlayerArmature.transform.position.z * Multiplyer,
                 -clampHeight, clampHeight);
             _mapImage.style.translate = new Translate(xPos, yPos, 0);
         }
@@ -77,7 +79,7 @@ public class MapController : MonoBehaviour
         {
             _mapImage.style.translate = new Translate(0, 0, 0);
         }
-        MapFaded = IsMapOpen && IsPlayerMoving;
+        MapFaded = IsMapOpen && thirdPersonController.IsMoving();
     }
 
     private void ToggleMap(bool on)
@@ -85,4 +87,15 @@ public class MapController : MonoBehaviour
         _root.EnableInClassList("root-container-mini", !on);
         _root.EnableInClassList("root-container-full", on);
     }
+
+    private bool IsMoving()
+    {
+        // Check if the player is currently moving based on their input
+        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        bool isMoving = moveInput.magnitude > 0.1f;
+
+        // Return the result
+        return isMoving;
+    }
+
 }
