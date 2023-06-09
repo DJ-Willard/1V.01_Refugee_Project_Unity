@@ -45,7 +45,8 @@ public class MapController : MonoBehaviour
         _root = GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>
             ("Container");
         _playerRepresentation = _root.Q<VisualElement>("Player");
-        _mapImage.style.translate = new Translate(Player.transform.position.x * -Multiplyer, Player.transform.position.z * Multiplyer, 0);
+        _root.Q<VisualElement>("Image");
+        _mapContainer = _root.Q<VisualElement>("Map");
     }
 
     void Update()
