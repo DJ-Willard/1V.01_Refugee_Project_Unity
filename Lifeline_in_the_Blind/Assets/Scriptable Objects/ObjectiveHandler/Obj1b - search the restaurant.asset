@@ -17,7 +17,9 @@ MonoBehaviour:
   objectiveUnlockedText: 'Inside the origami crane is a Map.
 
     Press M to toggle
-    map.'
+    map.
+
+    Find the southesast end of the city.'
   GO_name: paper_crane_pickup
   lock_tag: not set
   unlock_tag: 

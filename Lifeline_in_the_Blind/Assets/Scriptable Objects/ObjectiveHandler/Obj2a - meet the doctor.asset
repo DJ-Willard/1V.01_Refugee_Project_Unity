@@ -10,10 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1073a11b24384149a6ffb5870974056, type: 3}
-  m_Name: Obj2a - meet the traveler
+  m_Name: Obj2a - meet the doctor
   m_EditorClassIdentifier: 
-  objectiveText: Meet the Traveler
+  objectiveText: Meet the Traveler at SE City Exit
   objectiveIncompleteText: not set
+  objectiveUnlockedText: 'Doctor flagged you down.
+
+    Lead him to the church so
+
+    he
+    can continue his work.
+
+    (East across the inlet).'
   GO_name: not set
   lock_tag: not set
   unlock_tag: 

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectiveText: Find your Parents
   objectiveIncompleteText: not set
+  objectiveUnlockedText: not set
   GO_name: not set
   lock_tag: not set
   unlock_tag: 
-  description: 
+  description: Game over once parents found, display GameEnd canvas.
