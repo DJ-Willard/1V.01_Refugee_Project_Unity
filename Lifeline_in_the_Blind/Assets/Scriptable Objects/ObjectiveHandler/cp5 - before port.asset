@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c99555cd7b9ee41a1b891194b455ac, type: 3}
   m_Name: cp5 - before port
   m_EditorClassIdentifier: 
-  trigger_name: 
-  transform_name: 
+  trigger_name: cp5_trigger
+  transform_name: cp5_outsideport

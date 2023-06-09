@@ -734,24 +734,42 @@ namespace StarterAssets
             }
 
             // OBJECTIVES PASSIVE
-            // behavior must match in OnUse()
+            // behavior must match in OnUse() ? or not for passive ones
             if (other.gameObject.CompareTag("Objective"))
             {
+                // 1a find the restaurant
                 if (other.gameObject.name == "RestaurantTrigger")
                 {
                     if (objectiveHandler.CurrentMainObj.GO_name == "RestaurantTrigger")
                     {
                         StartCoroutine(UpdateObjective());
                     }
-                    // todo else if here? simple walking one like this may not require it
+                    // todo for all: else if here? simple walking one like this may not require it
                 }
+                // necessary? already handled in interacableItem / onUse (active objectives)
                 if (other.gameObject.name == "paper_crane_pickup")
                 {
                     if (objectiveHandler.CurrentMainObj.GO_name == "paper_crane_pickup")
                     {
                         StartCoroutine(UpdateObjective());
                     }
-                    // todo else, display appropriate text. this could use its own coroutine
+                }
+                // 1c leave the city / out of city
+                if (other.gameObject.name == "OutofcityTrigger")
+                {
+                    if (objectiveHandler.CurrentMainObj.GO_name == "OutofcityTrigger")
+                    {
+                        StartCoroutine(UpdateObjective());
+                    }
+                }
+                // 2a meet the doctor -- active?
+                // 2b find the church
+                if (other.gameObject.name == "ChurchTrigger")
+                {
+                    if (objectiveHandler.CurrentMainObj.GO_name == "ChurchTrigger")
+                    {
+                        StartCoroutine(UpdateObjective());
+                    }
                 }
             }
 
@@ -839,6 +857,9 @@ namespace StarterAssets
                         GotRadio.Play();
                         StartCoroutine(UpdateObjective());
                     }
+
+                    // Obj1c passive
+                    // Obj2a interactive?
                 }
                 // Bad current objective match, display appropriate text
                 else 
