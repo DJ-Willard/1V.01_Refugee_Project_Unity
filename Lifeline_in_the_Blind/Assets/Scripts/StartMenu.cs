@@ -12,7 +12,8 @@ public class StartMenu : MonoBehaviour
         // 1. StartMenu scene seems to be holding onto controls in some way
         // 2. Lighting on game scene is not right
         // SceneManager.UnloadSceneAsync(0); // makes no difference, async or not
-        SceneManager.LoadScene(1, LoadSceneMode.Single);    // single mode should unload all other scenes anyways, and is default
+        Debug.Log("Loading Scene");
+        SceneManager.LoadScene("Lv1_city");    // single mode should unload all other scenes anyways, and is default
     }
 
     public void QuitGame()
