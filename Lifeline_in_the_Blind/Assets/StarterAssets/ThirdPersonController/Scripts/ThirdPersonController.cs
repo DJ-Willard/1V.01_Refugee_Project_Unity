@@ -695,18 +695,7 @@ namespace StarterAssets
         // PW: added Inventory behavior
         // is there any argument that the radio object should perform this logic instead?
         private void OnTriggerEnter(Collider other)
-        {
-            // PICKUPS requiring 'E' press
-            if (other.gameObject.CompareTag("InteractivePickup"))
-            {
-                Debug.Log("Triggered: InteractivePickup tag");
-                // possible inventory behavior within
-                // InteractivePickup tag should guarantee interactive prompt available
-                interactivePromptTMP.text = "Press 'E' to pick up";
-                interactivePromptTMP.gameObject.SetActive(true);
-                interactableItem = other.gameObject;
-            }
-            
+        {            
             // DOORS
             if (other.gameObject.CompareTag("OpenDoor") || other.gameObject.CompareTag("Door_RadioLocked"))
             {
@@ -732,7 +721,20 @@ namespace StarterAssets
                 }
             }
 
-            // OBJECTIVES
+            // PICKUPS / OBJECTIVES ACTIVE requiring 'E' press
+            // behavior must match in OnUse()
+            if (other.gameObject.CompareTag("InteractivePickup"))
+            {
+                Debug.Log("Triggered: InteractivePickup tag");
+                // possible inventory behavior within
+                // InteractivePickup tag should guarantee interactive prompt available
+                interactivePromptTMP.text = "Press 'E' to pick up";
+                interactivePromptTMP.gameObject.SetActive(true);
+                interactableItem = other.gameObject;
+            }
+
+            // OBJECTIVES PASSIVE
+            // behavior must match in OnUse()
             if (other.gameObject.CompareTag("Objective"))
             {
                 if (other.gameObject.name == "RestaurantTrigger")
@@ -765,6 +767,115 @@ namespace StarterAssets
             }
             // End inventory behavior -----------------------------------------
             */ 
+        }
+
+                public void OnUse()
+        {
+            // PW: well this works. very cool. The Input System automatically messages this function wherever it's at.
+            // Review This means that my radio and inventory toggles are probably needlessly complex.
+            // Review Annoyingly these messages are only sent within the object. Csharp or Unity events and an event manager
+            //  would be a helpful change of pace for handling things like doors and pickups.
+            // And they are called Update() which is even dumber. 
+            
+            Debug.Log("TPC called OnUse()");
+            if (interactableItem){
+                Debug.Log("used interactableItem " + interactableItem.name);
+                Debug.Log("interactableItem = " + interactableItem.name);
+                Debug.Log("currentMainObj.GO_name = "  + objectiveHandler.CurrentMainObj.GO_name);
+                // now determine what interactableItem is and use it appropriately
+                // FIRST CHECK NON-OBJECTIVE / LOCKED ITEMS
+                if (interactableItem.gameObject.CompareTag("OpenDoor"))
+                {
+                    // BroadcastMessage calls string-named function in any mono objects and child mono objects in receiver
+                    // https://docs.unity3d.com/ScriptReference/Component.BroadcastMessage.html
+                    // (vs SendMessage which does not traverse hierarchy)
+                    interactableItem.gameObject.BroadcastMessage("UseDoor");
+                }
+                
+                // NOW CHECK OBJECTIVE / LOCKED ITEMS
+                // Good current objective match
+                else if (interactableItem.name == objectiveHandler.CurrentMainObj.GO_name)
+                {
+                    // todo refactor to have objhandler do more of this? could leave radio alone and finish others better
+                    // if current obj match, complete objective -- no need for check
+                    // else, display locked prompt text appropriately
+                    // (a way to expand this would be have list of currently available objectives)
+                    // DO CURRENT OBJECTIVE
+
+                    // Obj0a - find the radio
+                    if (interactableItem.name == "radio_pickup")
+                    {
+                        Destroy(interactableItem);
+                        ResetInteractablePromptAndItem();
+                        inventory.playerHasRadio = true;    // radio is special (may want to turn of inventory if not using)
+                        GameObject[] gos = GameObject.FindGameObjectsWithTag("Door_RadioLocked");
+                        foreach (GameObject go in gos)
+                        {
+                            go.tag = "OpenDoor";
+                        }
+                        GotRadio.Play(); // could be replaced by objective handling object
+                        StartCoroutine(UpdateObjective()); // just for this object or any objective critical objects. See objectives in scriptableobjects folder.
+                    }
+                    
+                    // Obj1b - search restaurant (to find crane / map)
+                    if (interactableItem.name == "paper_crane_pickup")
+                    {
+                        /*
+                        // get and display prompt from objective item based on GO name
+                        ObjectiveItem currentOI;
+                        foreach (ObjectiveItem OI in objectiveHandler.MainObjList)
+                        {
+                            if (OI.GO_name == "paper_crane_pickup") 
+                            {
+                                currentOI = OI;
+                                break;
+                            }
+                        }
+                        // error here if you want
+                        */
+                        Destroy(interactableItem);
+                        ResetInteractablePromptAndItem();
+                        inventory.playerHasMap = true;
+                        GotRadio.Play();
+                        StartCoroutine(UpdateObjective());
+                    }
+                }
+                // Bad current objective match, display appropriate text
+                else 
+                {
+                    bool badMatchFound = false;
+                    Debug.Log("bad objective match tag comparison:");
+                    foreach (ObjectiveItem OI in objectiveHandler.MainObjList)
+                    {
+                        Debug.Log(interactableItem.tag + " ?= " + OI.lock_tag);
+                        if (interactableItem.tag == OI.lock_tag)
+                        {
+                            interactivePromptTMP.text = OI.objectiveIncompleteText;    
+                            interactivePromptTMP.gameObject.SetActive(true);
+
+                            // error handling to debug
+                            badMatchFound = true;
+                            break;
+                        }
+                    }
+                    // may want to consider other loops for non-tag locks? this scenario might arise
+                    if (!badMatchFound){
+                        Debug.Log("Failed to find objective match with current interactable item.");
+                    }
+                }
+                /*
+                if (interactableItem.gameObject.CompareTag("Door_RadioLocked"))
+                {
+                    if (inventory.playerHasRadio)
+                    {
+                        interactableItem.gameObject.BroadcastMessage("UseDoor");           
+                    } else {
+                        interactivePromptTMP.text = "Find Radio before leaving apartment";
+                        interactivePromptTMP.gameObject.SetActive(true); 
+                    }
+                }
+                */
+            }
         }
 
         // mirror OnTriggerEnter behavior where necessary
@@ -807,91 +918,6 @@ namespace StarterAssets
             interactivePromptTMP.gameObject.SetActive(false);
             interactivePromptTMP.text = "no interactive prompt set";
             yield return null;
-        }
-
-        public void OnUse()
-        {
-            // PW: well this works. very cool. The Input System automatically messages this function wherever it's at.
-            // Review This means that my radio and inventory toggles are probably needlessly complex.
-            // Review Annoyingly these messages are only sent within the object. Csharp or Unity events and an event manager
-            //  would be a helpful change of pace for handling things like doors and pickups.
-            // And they are called Update() which is even dumber. 
-            
-            Debug.Log("TPC called OnUse()");
-            if (interactableItem){
-                Debug.Log("used interactableItem " + interactableItem.name);
-                Debug.Log("interactableItem = " + interactableItem.name);
-                Debug.Log("currentMainObj.GO_name = "  + objectiveHandler.CurrentMainObj.GO_name);
-                // now determine what interactableItem is and use it appropriately
-                // FIRST CHECK NON-OBJECTIVE / LOCKED ITEMS
-                if (interactableItem.gameObject.CompareTag("OpenDoor"))
-                {
-                    // BroadcastMessage calls string-named function in any mono objects and child mono objects in receiver
-                    // https://docs.unity3d.com/ScriptReference/Component.BroadcastMessage.html
-                    // (vs SendMessage which does not traverse hierarchy)
-                    interactableItem.gameObject.BroadcastMessage("UseDoor");
-                }
-                
-                // NOW CHECK OBJECTIVE / LOCKED ITEMS
-                // Good current objective match
-                else if (interactableItem.name == objectiveHandler.CurrentMainObj.GO_name)
-                {
-                    // todo refactor to have objhandler do more of this? could leave radio alone and finish others better
-                    // if current obj match, complete objective -- no need for check
-                    // else, display locked prompt text appropriately
-                    // (a way to expand this would be have list of currently available objectives)
-                    // DO CURRENT OBJECTIVE
-                    if (interactableItem.name == "radio_pickup")
-                    {
-                        Destroy(interactableItem);
-                        ResetInteractablePromptAndItem();
-                        inventory.playerHasRadio = true;    // radio is special (may want to turn of inventory if not using)
-                        GameObject[] gos = GameObject.FindGameObjectsWithTag("Door_RadioLocked");
-                        foreach (GameObject go in gos)
-                        {
-                            go.tag = "OpenDoor";
-                        }
-                        GotRadio.Play(); // could be replaced by objective handling object
-                        StartCoroutine(UpdateObjective()); // just for this object or any objective critical objects. See objectives in scriptableobjects folder.
-                    }
-                    // todo fill remaining objectives
-                }
-                // Bad current objective match, display appropriate text
-                else 
-                {
-                    bool badMatchFound = false;
-                    Debug.Log("bad objective match tag comparison:");
-                    foreach (ObjectiveItem OI in objectiveHandler.MainObjList)
-                    {
-                        Debug.Log(interactableItem.tag + " ?= " + OI.lock_tag);
-                        if (interactableItem.tag == OI.lock_tag)
-                        {
-                            interactivePromptTMP.text = OI.objectiveIncompleteText;    
-                            interactivePromptTMP.gameObject.SetActive(true);
-
-                            // error handling to debug
-                            badMatchFound = true;
-                            break;
-                        }
-                    }
-                    // may want to consider other loops for non-tag locks? this scenario might arise
-                    if (!badMatchFound){
-                        Debug.Log("Failed to find objective match with current interactable item.");
-                    }
-                }
-                /*
-                if (interactableItem.gameObject.CompareTag("Door_RadioLocked"))
-                {
-                    if (inventory.playerHasRadio)
-                    {
-                        interactableItem.gameObject.BroadcastMessage("UseDoor");           
-                    } else {
-                        interactivePromptTMP.text = "Find Radio before leaving apartment";
-                        interactivePromptTMP.gameObject.SetActive(true); 
-                    }
-                }
-                */
-            }
         }
 
         public void DisplayDeathMenu()

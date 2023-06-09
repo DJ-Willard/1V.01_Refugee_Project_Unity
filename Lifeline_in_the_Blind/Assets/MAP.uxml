@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/MapStyles.uss?fileID=7433441132597879392&amp;guid=828369221aa817445946e69bc6f674c0&amp;type=3#MapStyles" />
+    <Style src="project://database/Assets/MAPstyles.uss?fileID=7433441132597879392&amp;guid=828369221aa817445946e69bc6f674c0&amp;type=3#MAPstyles" />
     <ui:VisualElement name="Container" class="root-container-full">
         <ui:VisualElement name="Map" class="map-container">
-            <ui:VisualElement name="Image" class="map-img">
+            <ui:VisualElement name="Image" class="map-img" style="scale: 0.8 0.8; min-height: auto;">
                 <ui:VisualElement name="Player" class="player-container">
                     <ui:VisualElement name="Cone" class="player-cone">
                         <ui:VisualElement name="Arrow" class="player-arrow" />

@@ -11,6 +11,7 @@ public class InventoryObject : ScriptableObject
     // show up in normal inventory. If more appear, will do that.
     public List<InventorySlot> InventoryList = new List<InventorySlot>();
     public bool playerHasRadio;
+    public bool playerHasMap;
 
     public void OnEnable()
     {
@@ -18,11 +19,14 @@ public class InventoryObject : ScriptableObject
         // Depends on what behavior we want, i.e. if there are any checkpoints.
         // Should user retain inventory and radio if they die? 
         playerHasRadio = false;
+        playerHasMap = false;
     }
 
+    // review checkpoint behavior? where is this called?
     public void Init()
     {
         playerHasRadio = false;
+        playerHasMap = false; 
     }
 
     // If Container list already has item, just add to amount and return,

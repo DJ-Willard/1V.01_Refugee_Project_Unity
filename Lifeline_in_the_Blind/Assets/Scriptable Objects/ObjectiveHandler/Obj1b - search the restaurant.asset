@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectiveText: Search the Restaurant
   objectiveIncompleteText: not set
-  objectiveUnlockedText: You found the origami note!
+  objectiveUnlockedText: 'Inside the origami crane is a Map.
+
+    Press M to toggle
+    map.'
   GO_name: paper_crane_pickup
   lock_tag: not set
   unlock_tag: 

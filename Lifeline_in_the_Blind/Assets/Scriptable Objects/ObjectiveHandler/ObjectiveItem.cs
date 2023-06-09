@@ -9,7 +9,7 @@ public class ObjectiveItem : ScriptableObject
     // public GameObject prefabTrigger;
     public string objectiveText;
     public string objectiveIncompleteText;
-    public string objectiveUnlockedText;
+    [TextArea(3, 20)] public string objectiveUnlockedText;
     public string GO_name;
     public string lock_tag;
     public string unlock_tag;
