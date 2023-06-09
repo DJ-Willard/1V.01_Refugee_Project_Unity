@@ -2,37 +2,63 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC_fallowing : MonoBehaviour
+public class NPCFollowing : MonoBehaviour
 {
-    public GameObject ThePlayer;
-    public float TargetDistance;
-    public float AllowedDistance = 5;
-    public GameObject NPC;
-    public float FollowSpeed;
-    public RaycastHit Shot;
+    public GameObject playerArmature;
+    public float followDistance = 5f;
+    public float moveSpeed = 3f;
+    public Animator animator;
+    public Animation prayingAnimation;
+    public bool isFollowing = false;
 
+    private bool isWaving = true;
+    private bool hasStartedPraying = false;
 
-    // Update is called once per frame 
-    //DJW
-    void Update()
+    private void Update()
     {
-        transform.LookAt(ThePlayer.transform);
-        if(Physics.Raycast(transform.position,transform.TransformDirection(Vector3.forward),out Shot))
+        float distance = Vector3.Distance(transform.position, playerArmature.transform.position);
+
+        if (isWaving)
         {
-            TargetDistance = Shot.distance;
-            //NPC is of range of player
-            if(TargetDistance >= AllowedDistance)
+            // NPC is near the player, stop waving and start following
+            if (distance <= followDistance)
             {
-                FollowSpeed = .1f;
-                NPC.GetComponent<Animation>().Play("Walking");
-                transform.position = Vector3.MoveTowards(transform.position, ThePlayer.transform.position, FollowSpeed);
+                isWaving = false;
+                isFollowing = true;
+                animator.SetBool("IsWaving", false);
+                animator.SetBool("IsFollowing", true);
             }
-            //NPC in next to player
-            else 
+        }
+
+        if (isFollowing)
+        {
+            if (distance > followDistance)
             {
-                FollowSpeed = 0;
-                NPC.GetComponent<Animation>().Play("Idle");
+                // Player is out of follow range, stop following and start praying
+                isFollowing = false;
+                animator.SetBool("IsFollowing", false);
+                animator.SetBool("IsPraying", true);
+                prayingAnimation.Play();
+                hasStartedPraying = true;
             }
+            else
+            {
+                Vector3 direction = (playerArmature.transform.position - transform.position).normalized;
+                transform.position += direction * moveSpeed * Time.deltaTime;
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // NPC has hit a collider, start praying animation
+        if (isFollowing && !hasStartedPraying)
+        {
+            isFollowing = false;
+            animator.SetBool("IsFollowing", false);
+            animator.SetBool("IsPraying", true);
+            prayingAnimation.Play();
+            hasStartedPraying = true;
         }
     }
 }
