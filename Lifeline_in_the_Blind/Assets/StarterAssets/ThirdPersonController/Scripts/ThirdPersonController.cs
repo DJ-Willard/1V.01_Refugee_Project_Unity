@@ -323,14 +323,62 @@ namespace StarterAssets
             if (_input.crouch)
             {
                 targetSpeed = CrouchSpeed;
+                if(WalkingMusic.volume > MinWalkingVolume)
+                {
+                    WalkingMusic.volume -= 0.00325f;
+                    if (WalkingMusic.volume < MinWalkingVolume)
+                    {
+                        WalkingMusic.volume = MinWalkingVolume;
+                    }
+                }
+                if (AmbientMusic.volume < maxAmbientVolume)
+                {
+                    AmbientMusic.volume += 0.00125f;
+                    if (AmbientMusic.volume > maxAmbientVolume)
+                    {
+                        AmbientMusic.volume = maxAmbientVolume;
+                    }
+                }
             }
             else if (_input.sprint)
             {
                 targetSpeed = SprintSpeed;
+                if (AmbientMusic.volume > MinAmbientVolume)
+                {
+                    AmbientMusic.volume -= 0.0025f;
+                    if (AmbientMusic.volume < MinAmbientVolume)
+                    {
+                        AmbientMusic.volume = MinAmbientVolume;
+                    }
+                }
+                if (WalkingMusic.volume < maxWalkingVolume)
+                {
+                    WalkingMusic.volume += 0.0025f;
+                    if (WalkingMusic.volume > maxWalkingVolume)
+                    {
+                        WalkingMusic.volume = maxWalkingVolume;
+                    }
+                }
             }
             else
             {
                 targetSpeed = MoveSpeed;
+                if(WalkingMusic.volume > MinWalkingVolume)
+                {
+                    WalkingMusic.volume -= 0.00325f;
+                    if (WalkingMusic.volume < MinWalkingVolume)
+                    {
+                        WalkingMusic.volume = MinWalkingVolume;
+                    }
+                }
+                if (AmbientMusic.volume < maxAmbientVolume)
+                {
+                    AmbientMusic.volume += 0.00125f;
+                    if (AmbientMusic.volume > maxAmbientVolume)
+                    {
+                        AmbientMusic.volume = maxAmbientVolume;
+                    }
+                }
             }
 
             if (_input.crouch)
@@ -356,13 +404,7 @@ namespace StarterAssets
                 targetSpeed = 0.0f;
 
                 // SD: Stop walking music if it's playing
-                /*if (walkingMusicPlaying)
-                {
-                    WalkingMusic.Stop();
-                    walkingMusicPlaying = false;
-                    //AmbientMusic.volume = originalVolume;
-                }*/
-                if(WalkingMusic.volume > MinWalkingVolume)
+                /*if(WalkingMusic.volume > MinWalkingVolume)
                 {
                     WalkingMusic.volume -= 0.00325f;
                     if (WalkingMusic.volume < MinWalkingVolume)
@@ -377,7 +419,7 @@ namespace StarterAssets
                     {
                         AmbientMusic.volume = maxAmbientVolume;
                     }
-                }
+                }*/
             }
 
             // a reference to the players current horizontal velocity
@@ -422,7 +464,7 @@ namespace StarterAssets
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 
                 // SD: Play walking music if it isn't playing
-                if (AmbientMusic.volume > MinAmbientVolume)
+                /*if (AmbientMusic.volume > MinAmbientVolume)
                 {
                     AmbientMusic.volume -= 0.0025f;
                     if (AmbientMusic.volume < MinAmbientVolume)
@@ -437,7 +479,7 @@ namespace StarterAssets
                     {
                         WalkingMusic.volume = maxWalkingVolume;
                     }
-                }
+                }*/
             }
 
 

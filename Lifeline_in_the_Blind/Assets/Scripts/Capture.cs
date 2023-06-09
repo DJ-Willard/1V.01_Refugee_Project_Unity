@@ -82,7 +82,7 @@ public class Capture : MonoBehaviour
                     EnemyMusic.volume = maxEnemyVolume;
                 }
                 AmbientMusic.volume -= 0.005f;
-                WalkingMusic.volume -= 0.005f;
+                WalkingMusic.volume -= 0.01f;
             }
             else
             {
