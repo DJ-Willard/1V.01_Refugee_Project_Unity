@@ -11,7 +11,7 @@
 }
 
 .map-container {
-    width: 90%;
+    width: 50%;
     height: 90%;
     overflow: hidden;
     align-items: center;
@@ -22,7 +22,7 @@
     position: absolute;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: 115%;
     height: 100%;
     background-image: url('project://database/Assets/Maps/THEmap.png?fileID=2800000&guid=dc5915a431c912f4a8c051e312c859d4&type=3#THEmap');
     -unity-background-scale-mode: scale-and-crop;
